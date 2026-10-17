@@ -517,6 +517,25 @@ ul {
   gap: 0.85rem;
 }
 
+.nav-admin-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.55rem 0.95rem !important;
+  font-size: 0.85rem !important;
+  font-weight: 600 !important;
+  color: var(--primary) !important;
+  border-color: rgba(0, 229, 255, 0.25) !important;
+  border-radius: var(--radius-md) !important;
+  background: rgba(0, 229, 255, 0.04);
+  transition: all var(--transition-fast);
+}
+.nav-admin-btn:hover {
+  background: var(--primary-subtle) !important;
+  border-color: var(--primary) !important;
+  transform: translateY(-2px);
+}
+
 /* Theme Icon Toggle */
 .sun-icon { display: none; width: 1.25rem; height: 1.25rem; }
 .moon-icon { display: block; width: 1.25rem; height: 1.25rem; }
