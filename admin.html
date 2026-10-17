@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SEJUKPRO™ Admin Dashboard — Kelola Produk, Chart & Payment</title>
+  <meta name="description" content="Admin Dashboard SEJUKPRO - Kelola data produk/layanan, analisis chart booking, dan konfigurasi metode pembayaran.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+  <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+  <!-- Sidebar Navigation -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-brand">
+      <div class="brand-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M2 12h20M4.93 4.93l14.14 14.14M4.93 19.07l14.14-14.14"/><circle cx="12" cy="12" r="3"/></svg>
+      </div>
+      <div>
+        <span class="brand-title">SEJUK<span>PRO</span></span>
+        <span class="brand-sub">Admin Panel</span>
+      </div>
+    </div>
+
+    <nav class="sidebar-nav">
+      <a href="#" class="nav-item active" data-page="dashboard" id="navDashboard">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+        <span>Dashboard</span>
+      </a>
+      <a href="#" class="nav-item" data-page="products" id="navProducts">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg>
+        <span>Produk & Layanan</span>
+      </a>
+      <a href="#" class="nav-item" data-page="payments" id="navPayments">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+        <span>Payment Method</span>
+      </a>
+      <a href="#" class="nav-item" data-page="bookings" id="navBookings">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+        <span>Data Booking</span>
+      </a>
+    </nav>
+
+    <div class="sidebar-footer">
+      <a href="index.html" class="nav-item" target="_blank">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+        <span>Lihat Website</span>
+      </a>
+      <button class="nav-item logout-btn" id="sidebarLogoutBtn" type="button">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+        <span>Keluar (Logout)</span>
+      </button>
+    </div>
+  </aside>
+
+  <!-- Mobile sidebar toggle -->
+  <button class="mobile-sidebar-toggle" id="sidebarToggle" aria-label="Toggle Sidebar">
+    <span></span><span></span><span></span>
+  </button>
+
+  <!-- Main Content Area -->
+  <main class="main-content" id="mainContent">
+    <!-- Top Bar -->
+    <header class="topbar">
+      <div class="topbar-left">
+        <h1 class="page-title" id="pageTitle">Dashboard</h1>
+        <span class="page-breadcrumb" id="pageBreadcrumb">Overview & Analytics</span>
+      </div>
+      <div class="topbar-right">
+        <div class="connection-status" id="connectionStatus">
+          <span class="status-dot"></span>
+          <span>Supabase Terhubung</span>
+        </div>
+
+        <!-- Admin Profile Topbar -->
+        <div class="admin-profile" id="adminProfile">
+          <div class="profile-avatar" id="adminAvatar">AD</div>
+          <div class="profile-details">
+            <span class="profile-email" id="adminEmailDisplay">admin@sejukpro.com</span>
+            <span class="profile-role" id="adminRoleDisplay">Super Admin</span>
+          </div>
+          <button class="btn-icon-logout" id="topbarLogoutBtn" title="Keluar / Logout" aria-label="Keluar">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- ============================================================ -->
+    <!-- PAGE: DASHBOARD -->
+    <!-- ============================================================ -->
+    <section class="page-content active" id="pageDashboard">
+      <!-- Summary Cards -->
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-icon blue">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+          </div>
+          <div class="stat-info">
+            <span class="stat-label">Total Booking</span>
+            <h3 class="stat-number" id="statTotalBookings">-</h3>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon green">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <div class="stat-info">
+            <span class="stat-label">Selesai</span>
+            <h3 class="stat-number" id="statCompleted">-</h3>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon orange">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          </div>
+          <div class="stat-info">
+            <span class="stat-label">Pending</span>
+            <h3 class="stat-number" id="statPending">-</h3>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon cyan">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg>
+          </div>
+          <div class="stat-info">
+            <span class="stat-label">Total Produk Aktif</span>
+            <h3 class="stat-number" id="statActiveProducts">-</h3>
+          </div>
+        </div>
+      </div>
+
+      <!-- Charts Row -->
+      <div class="charts-grid">
+        <div class="chart-card glass-card">
+          <div class="chart-header">
+            <h3>Booking per Layanan</h3>
+            <span class="chart-badge">Pie Chart</span>
+          </div>
+          <div class="chart-body">
+            <canvas id="chartServicePie"></canvas>
+          </div>
+        </div>
+        <div class="chart-card glass-card">
+          <div class="chart-header">
+            <h3>Status Booking</h3>
+            <span class="chart-badge">Doughnut</span>
+          </div>
+          <div class="chart-body">
+            <canvas id="chartStatusDoughnut"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <div class="charts-grid single">
+        <div class="chart-card glass-card wide">
+          <div class="chart-header">
+            <h3>Metode Pembayaran Populer</h3>
+            <span class="chart-badge">Bar Chart</span>
+          </div>
+          <div class="chart-body">
+            <canvas id="chartPaymentBar"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <!-- Recent Bookings -->
+      <div class="table-card glass-card">
+        <div class="table-header">
+          <h3>Booking Terbaru</h3>
+          <button class="btn btn-sm btn-secondary" onclick="navigateTo('bookings')">Lihat Semua →</button>
+        </div>
+        <div class="table-responsive">
+          <table class="data-table" id="recentBookingsTable">
+            <thead>
+              <tr>
+                <th>Pelanggan</th>
+                <th>Layanan</th>
+                <th>Tanggal</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody id="recentBookingsBody">
+              <tr><td colspan="4" class="table-loading">Memuat data...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- PAGE: PRODUCTS -->
+    <!-- ============================================================ -->
+    <section class="page-content" id="pageProducts">
+      <div class="page-actions">
+        <button class="btn btn-primary" id="btnAddProduct" onclick="openProductModal()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          Tambah Produk Baru
+        </button>
+        <button class="btn btn-secondary" onclick="loadProducts()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+          Refresh
+        </button>
+      </div>
+
+      <div class="table-card glass-card">
+        <div class="table-responsive">
+          <table class="data-table" id="productsTable">
+            <thead>
+              <tr>
+                <th>Urutan</th>
+                <th>Nama Produk</th>
+                <th>Harga</th>
+                <th>Badge</th>
+                <th>Featured</th>
+                <th>Status</th>
+                <th>Aksi</th>
+              </tr>
+            </thead>
+            <tbody id="productsBody">
+              <tr><td colspan="7" class="table-loading">Memuat data produk...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- PAGE: PAYMENT METHODS -->
+    <!-- ============================================================ -->
+    <section class="page-content" id="pagePayments">
+      <div class="page-actions">
+        <button class="btn btn-primary" id="btnAddPayment" onclick="openPaymentModal()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          Tambah Payment Method
+        </button>
+        <button class="btn btn-secondary" onclick="loadPaymentMethods()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+          Refresh
+        </button>
+      </div>
+
+      <div class="table-card glass-card">
+        <div class="table-responsive">
+          <table class="data-table" id="paymentsTable">
+            <thead>
+              <tr>
+                <th>Urutan</th>
+                <th>Icon</th>
+                <th>Nama Metode</th>
+                <th>Deskripsi</th>
+                <th>Status</th>
+                <th>Aksi</th>
+              </tr>
+            </thead>
+            <tbody id="paymentsBody">
+              <tr><td colspan="6" class="table-loading">Memuat data payment...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- PAGE: BOOKINGS -->
+    <!-- ============================================================ -->
+    <section class="page-content" id="pageBookings">
+      <div class="page-actions">
+        <div class="filter-group">
+          <label>Filter Status:</label>
+          <select id="bookingStatusFilter" onchange="loadBookings()">
+            <option value="">Semua</option>
+            <option value="pending">Pending</option>
+            <option value="confirmed">Confirmed</option>
+            <option value="in_progress">In Progress</option>
+            <option value="completed">Completed</option>
+            <option value="cancelled">Cancelled</option>
+          </select>
+        </div>
+        <button class="btn btn-secondary" onclick="loadBookings()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+          Refresh
+        </button>
+      </div>
+
+      <div class="table-card glass-card">
+        <div class="table-responsive">
+          <table class="data-table" id="bookingsTable">
+            <thead>
+              <tr>
+                <th>Pelanggan</th>
+                <th>No. HP</th>
+                <th>Layanan</th>
+                <th>Unit</th>
+                <th>Tanggal</th>
+                <th>Pembayaran</th>
+                <th>Status</th>
+                <th>Aksi</th>
+              </tr>
+            </thead>
+            <tbody id="bookingsBody">
+              <tr><td colspan="8" class="table-loading">Memuat data booking...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ============================================================ -->
+  <!-- MODAL: PRODUCT FORM -->
+  <!-- ============================================================ -->
+  <div class="modal-overlay" id="productModal">
+    <div class="modal-container glass-card">
+      <div class="modal-header">
+        <h3 id="productModalTitle">Tambah Produk Baru</h3>
+        <button class="modal-close" onclick="closeProductModal()">&times;</button>
+      </div>
+      <form id="productForm" class="modal-form" onsubmit="saveProduct(event)">
+        <input type="hidden" id="productId">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="productName">Nama Produk / Layanan *</label>
+            <input type="text" id="productName" required placeholder="Contoh: Cuci AC Standar & Steam Clean">
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="productDesc">Deskripsi Layanan</label>
+          <textarea id="productDesc" rows="2" placeholder="Deskripsi singkat layanan..."></textarea>
+        </div>
+        <div class="form-row three">
+          <div class="form-group">
+            <label for="productPriceLabel">Label Harga</label>
+            <input type="text" id="productPriceLabel" placeholder="Mulai dari">
+          </div>
+          <div class="form-group">
+            <label for="productPriceAmount">Harga *</label>
+            <input type="text" id="productPriceAmount" required placeholder="Rp 75.000">
+          </div>
+          <div class="form-group">
+            <label for="productPriceUnit">Satuan</label>
+            <input type="text" id="productPriceUnit" placeholder="/ unit">
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="productFeatures">Fitur (pisahkan dengan enter, 1 baris = 1 fitur)</label>
+          <textarea id="productFeatures" rows="4" placeholder="Cuci Evaporator & Blower&#10;Gratis Cek Tekanan Freon&#10;Garansi Cuci 30 Hari"></textarea>
+        </div>
+        <div class="form-row three">
+          <div class="form-group">
+            <label for="productBadge">Badge Text</label>
+            <input type="text" id="productBadge" placeholder="Paling Populer">
+          </div>
+          <div class="form-group">
+            <label for="productBadgeType">Badge Type</label>
+            <select id="productBadgeType">
+              <option value="default">Default (Cyan)</option>
+              <option value="gold">Gold (Featured)</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="productSortOrder">Urutan</label>
+            <input type="number" id="productSortOrder" value="0" min="0">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="productCtaText">Teks Tombol CTA</label>
+            <input type="text" id="productCtaText" placeholder="Pesan Sekarang">
+          </div>
+          <div class="form-group">
+            <label for="productCtaValue">Service Value (untuk form booking)</label>
+            <input type="text" id="productCtaValue" placeholder="Cuci AC Standar">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group checkbox-group">
+            <label><input type="checkbox" id="productFeatured"> Tandai sebagai Featured</label>
+          </div>
+          <div class="form-group checkbox-group">
+            <label><input type="checkbox" id="productActive" checked> Aktif (tampil di website)</label>
+          </div>
+        </div>
+        <div class="modal-actions">
+          <button type="button" class="btn btn-secondary" onclick="closeProductModal()">Batal</button>
+          <button type="submit" class="btn btn-primary" id="btnSaveProduct">Simpan Produk</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- MODAL: PAYMENT METHOD FORM -->
+  <!-- ============================================================ -->
+  <div class="modal-overlay" id="paymentModal">
+    <div class="modal-container glass-card small">
+      <div class="modal-header">
+        <h3 id="paymentModalTitle">Tambah Payment Method</h3>
+        <button class="modal-close" onclick="closePaymentModal()">&times;</button>
+      </div>
+      <form id="paymentForm" class="modal-form" onsubmit="savePaymentMethod(event)">
+        <input type="hidden" id="paymentMethodId">
+        <div class="form-row">
+          <div class="form-group" style="flex:0 0 80px;">
+            <label for="paymentIcon">Icon</label>
+            <input type="text" id="paymentIcon" value="💳" style="font-size:1.5rem;text-align:center;">
+          </div>
+          <div class="form-group">
+            <label for="paymentName">Nama Metode *</label>
+            <input type="text" id="paymentName" required placeholder="Transfer Bank / QRIS">
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="paymentDescription">Deskripsi</label>
+          <input type="text" id="paymentDescription" placeholder="Pembayaran setelah servis selesai">
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="paymentSortOrder">Urutan</label>
+            <input type="number" id="paymentSortOrder" value="0" min="0">
+          </div>
+          <div class="form-group checkbox-group">
+            <label><input type="checkbox" id="paymentActiveCheck" checked> Aktif</label>
+          </div>
+        </div>
+        <div class="modal-actions">
+          <button type="button" class="btn btn-secondary" onclick="closePaymentModal()">Batal</button>
+          <button type="submit" class="btn btn-primary">Simpan Payment</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- MODAL: BOOKING DETAIL -->
+  <!-- ============================================================ -->
+  <div class="modal-overlay" id="bookingDetailModal">
+    <div class="modal-container glass-card">
+      <div class="modal-header">
+        <h3>Detail Booking</h3>
+        <button class="modal-close" onclick="closeBookingDetailModal()">&times;</button>
+      </div>
+      <div class="booking-detail-body" id="bookingDetailBody">
+        <!-- Filled by JS -->
+      </div>
+      <div class="modal-actions">
+        <button type="button" class="btn btn-secondary" onclick="closeBookingDetailModal()">Tutup</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- MODAL: ADMIN LOGIN & AUTHENTICATION OVERLAY -->
+  <!-- ============================================================ -->
+  <div class="auth-overlay active" id="adminLoginOverlay" aria-modal="true" role="dialog">
+    <div class="auth-container glass-card">
+      <!-- Glow ambient background -->
+      <div class="auth-ambient-glow"></div>
+
+      <!-- Auth Header -->
+      <div class="auth-header">
+        <div class="auth-brand-badge">
+          <div class="brand-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M2 12h20M4.93 4.93l14.14 14.14M4.93 19.07l14.14-14.14"/><circle cx="12" cy="12" r="3"/></svg>
+          </div>
+          <div>
+            <span class="auth-brand-title">SEJUK<span>PRO</span></span>
+            <span class="auth-brand-sub">Admin Portal</span>
+          </div>
+        </div>
+        <h2 class="auth-title">Otentikasi Administrator</h2>
+        <p class="auth-subtitle">Masuk untuk mengelola produk, transaksi booking, dan metode pembayaran.</p>
+      </div>
+
+      <!-- Auth Tabs: Login vs Register -->
+      <div class="auth-tabs" id="authTabs">
+        <button type="button" class="auth-tab-btn active" id="tabBtnLogin" onclick="switchAuthTab('login')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg>
+          Masuk
+        </button>
+        <button type="button" class="auth-tab-btn" id="tabBtnRegister" onclick="switchAuthTab('register')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><line x1="20" y1="8" x2="20" y2="14"/><line x1="23" y1="11" x2="17" y2="11"/></svg>
+          Daftar Admin Baru
+        </button>
+      </div>
+
+      <!-- Alert Box -->
+      <div class="auth-alert" id="authAlert" style="display: none;">
+        <span class="auth-alert-icon" id="authAlertIcon">⚠️</span>
+        <span class="auth-alert-text" id="authAlertText">Pesan alert di sini</span>
+      </div>
+
+      <!-- FORM 1: LOGIN -->
+      <form id="adminLoginForm" class="auth-form active" onsubmit="handleAdminLogin(event)">
+        <div class="auth-field">
+          <label for="loginEmail">Email Administrator</label>
+          <div class="input-with-icon">
+            <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            <input type="email" id="loginEmail" placeholder="admin@sejukpro.com" required autocomplete="email">
+          </div>
+        </div>
+
+        <div class="auth-field">
+          <div class="field-label-row">
+            <label for="loginPassword">Kata Sandi (Password)</label>
+          </div>
+          <div class="input-with-icon">
+            <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            <input type="password" id="loginPassword" placeholder="••••••••" required autocomplete="current-password">
+            <button type="button" class="btn-toggle-pwd" onclick="togglePasswordVisibility('loginPassword', this)" aria-label="Lihat kata sandi">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+            </button>
+          </div>
+        </div>
+
+        <div class="auth-options">
+          <label class="remember-label">
+            <input type="checkbox" id="loginRemember" checked>
+            <span>Ingat sesi saya di browser ini</span>
+          </label>
+        </div>
+
+        <button type="submit" class="btn btn-primary auth-submit-btn" id="btnLoginSubmit">
+          <span class="btn-text">Masuk ke Dashboard</span>
+          <span class="btn-spinner" style="display:none;"></span>
+        </button>
+
+        <!-- Divider & Demo Fallback -->
+        <div class="auth-divider">
+          <span>atau untuk pengujian cepat</span>
+        </div>
+
+        <div class="demo-login-box">
+          <button type="button" class="btn btn-outline demo-btn" id="btnDemoLogin" onclick="handleDemoLogin()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            Masuk dengan Mode Demo (Bypass Supabase)
+          </button>
+          <small class="demo-note">Gunakan mode demo jika akun Supabase Auth belum selesai dikonfigurasi.</small>
+        </div>
+      </form>
+
+      <!-- FORM 2: REGISTER -->
+      <form id="adminRegisterForm" class="auth-form" onsubmit="handleAdminRegister(event)" style="display: none;">
+        <div class="auth-field">
+          <label for="registerName">Nama Lengkap</label>
+          <div class="input-with-icon">
+            <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            <input type="text" id="registerName" placeholder="Nama Admin" required>
+          </div>
+        </div>
+
+        <div class="auth-field">
+          <label for="registerEmail">Email Baru</label>
+          <div class="input-with-icon">
+            <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            <input type="email" id="registerEmail" placeholder="admin.baru@sejukpro.com" required autocomplete="email">
+          </div>
+        </div>
+
+        <div class="auth-field">
+          <label for="registerPassword">Kata Sandi (Min. 6 Karakter)</label>
+          <div class="input-with-icon">
+            <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            <input type="password" id="registerPassword" placeholder="••••••••" minlength="6" required autocomplete="new-password">
+            <button type="button" class="btn-toggle-pwd" onclick="togglePasswordVisibility('registerPassword', this)" aria-label="Lihat kata sandi">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+            </button>
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary auth-submit-btn" id="btnRegisterSubmit">
+          <span class="btn-text">Daftarkan Admin</span>
+          <span class="btn-spinner" style="display:none;"></span>
+        </button>
+
+        <p class="auth-footnote">
+          Catatan: Pastikan opsi <em>"Confirm email"</em> di Supabase Dashboard (Auth > Providers > Email) telah disesuaikan jika ingin login langsung tanpa klik email verifikasi.
+        </p>
+      </form>
+
+      <!-- Auth Footer Info -->
+      <div class="auth-footer-security">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        <span>Terproteksi Supabase Auth & JWT Row-Level Security</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div class="toast-container" id="adminToast" aria-live="polite"></div>
+
+  <script src="supabase-config.js"></script>
+  <script src="admin.js"></script>
+</body>
+</html>

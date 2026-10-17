@@ -1,0 +1,1510 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SEJUKPRO™ - Layanan Servis AC & Ahli Tata Udara Terpercaya</title>
+  <meta name="description" content="PT Sejuk Teknik Nusantara - Solusi profesional perawatan, perbaikan, instalasi AC dan tata udara. Dilengkapi kalkulator BTU ruangan presisi & pelayanan pelanggan 24/7.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body data-theme="dark">
+  <!-- Atmospheric Air/Cooling Glow Background -->
+  <div class="bg-glow-orb orb-1"></div>
+  <div class="bg-glow-orb orb-2"></div>
+  <div class="bg-glow-orb orb-3"></div>
+
+  <!-- Announcement Bar -->
+  <aside class="announcement-bar" aria-label="Pengumuman promo">
+    <div class="container announcement-inner">
+      <span class="badge-pill">PROMO MUSIM PANAS</span>
+      <p>Diskon 20% Cuci AC Paket 3 Unit + Gratis Uji Kebocoran & Pengecekan Tekanan Freon!</p>
+      <a href="#customer-service" class="announcement-link">Klaim Promo &rarr;</a>
+    </div>
+  </aside>
+
+  <!-- Navigation Bar -->
+  <header class="navbar" id="navbar">
+    <div class="container nav-container">
+      <a href="#" class="brand-logo" aria-label="SEJUKPRO Beranda">
+        <div class="logo-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 2v20M2 12h20M4.93 4.93l14.14 14.14M4.93 19.07l14.14-14.14"/>
+            <circle cx="12" cy="12" r="3"/>
+          </svg>
+        </div>
+        <div class="brand-text">
+          <span class="brand-name">SEJUK<span>PRO</span></span>
+          <span class="brand-sub">PT SEJUK TEKNIK NUSANTARA</span>
+        </div>
+      </a>
+
+      <nav class="nav-links" id="navMenu">
+        <a href="#hero" class="nav-link active">Beranda</a>
+        <a href="#profile" class="nav-link">Profil Perusahaan</a>
+        <a href="#services" class="nav-link">Layanan & Tarif</a>
+        <a href="#btu-calculator" class="nav-link nav-highlight">
+          <span class="tool-dot"></span> Kalkulator BTU
+        </a>
+        <a href="#troubleshooter" class="nav-link">Diagnosa Cepat</a>
+        <a href="#customer-service" class="nav-link">Pelayanan Pelanggan</a>
+        <a href="#faq" class="nav-link">FAQ</a>
+        <a href="admin.html" class="nav-link" style="color:var(--accent-cyan);font-weight:600">📊 Admin Panel</a>
+      </nav>
+
+      <div class="nav-actions">
+        <button id="landscapeToggle" class="btn-icon" aria-label="Ganti Mode Landscape / Boxed" title="Mode Tampilan: Landscape / Boxed">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="2" y="4" width="20" height="13" rx="2"></rect>
+            <path d="M8 21h8m-4-4v4"></path>
+          </svg>
+        </button>
+        <button id="themeToggle" class="btn-icon" aria-label="Ganti Tema Tampilan" title="Ganti Tema">
+          <svg class="sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="5"></circle>
+            <path d="M12 1v2m0 18v2M4.22 4.22l1.42 1.42m12.72 12.72l1.42 1.42M1 12h2m18 0h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"></path>
+          </svg>
+          <svg class="moon-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+          </svg>
+        </button>
+
+        <a href="admin.html" class="btn btn-outline nav-admin-btn" title="Admin Dashboard">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:16px;height:16px;margin-right:4px;">
+            <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/>
+          </svg>
+          Admin
+        </a>
+
+        <a href="#customer-service" class="btn btn-primary nav-cta">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+          </svg>
+          Booking Servis
+        </a>
+
+        <button class="hamburger-btn" id="mobileMenuBtn" aria-label="Menu Navigasi Mobile">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- HERO SECTION -->
+    <section class="hero-section" id="hero">
+      <div class="container hero-grid">
+        <div class="hero-content">
+          <div class="hero-chip">
+            <span class="chip-glow"></span>
+            <span class="chip-text">Ahli Pendingin & Tata Udara No. 1</span>
+          </div>
+
+          <h1 class="hero-title">
+            Nikmati Udara <span class="gradient-text">Sejuk, Dingin Maksimal</span> & Hemat Listrik
+          </h1>
+
+          <p class="hero-desc">
+            PT Sejuk Teknik Nusantara menyediakan layanan tata udara berstandar industri: cuci AC steam higienis, pengisian freon presisi, servis darurat, hingga instalasi unit baru dengan garansi kepuasan resmi s/d 90 hari.
+          </p>
+
+          <div class="hero-cta-group">
+            <a href="#btu-calculator" class="btn btn-primary btn-lg pulse-shadow">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="4" y="2" width="16" height="20" rx="2"></rect>
+                <line x1="8" y1="6" x2="16" y2="6"></line>
+                <line x1="16" y1="14" x2="16" y2="14.01"></line>
+                <line x1="12" y1="14" x2="12" y2="14.01"></line>
+                <line x1="8" y1="14" x2="8" y2="14.01"></line>
+                <line x1="16" y1="18" x2="16" y2="18.01"></line>
+                <line x1="12" y1="18" x2="12" y2="18.01"></line>
+                <line x1="8" y1="18" x2="8" y2="18.01"></line>
+              </svg>
+              Hitung BTU Ruangan Anda
+            </a>
+            <a href="#customer-service" class="btn btn-secondary btn-lg">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+              </svg>
+              Hubungi CS & Booking
+            </a>
+          </div>
+
+          <div class="hero-badges">
+            <div class="badge-item">
+              <div class="badge-icon green">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              </div>
+              <div>
+                <strong>Teknisi BNSP</strong>
+                <span>Tersertifikasi Resmi</span>
+              </div>
+            </div>
+            <div class="badge-item">
+              <div class="badge-icon cyan">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+              </div>
+              <div>
+                <strong>Garansi 90 Hari</strong>
+                <span>Jaminan Dingin Nyaman</span>
+              </div>
+            </div>
+            <div class="badge-item">
+              <div class="badge-icon gold">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+              </div>
+              <div>
+                <strong>Respon < 15 Menit</strong>
+                <span>Layanan Cepat Siaga</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Interactive AC Unit Simulator Showcase -->
+        <div class="hero-visual">
+          <div class="ac-interactive-card">
+            <div class="ac-card-header">
+              <div class="ac-brand-badge">
+                <span class="live-indicator"></span>
+                <span>SEJUKPRO SMART HVAC SIMULATOR</span>
+              </div>
+              <div class="ac-filter-status" id="acStatusText">Mode: Turbo Cooling</div>
+            </div>
+
+            <!-- AC Indoor Unit Realistic Rendering -->
+            <div class="ac-unit-body" id="acUnitBody">
+              <div class="ac-display-panel">
+                <span class="ac-temp-val" id="simTempDisplay">18</span>
+                <span class="ac-temp-unit">°C</span>
+                <div class="ac-mode-icon" id="simModeIcon">❄️</div>
+              </div>
+              <div class="ac-louver" id="acLouver"></div>
+              <!-- Air Breeze Animation Particles -->
+              <div class="airflow-waves">
+                <div class="wave wave-1"></div>
+                <div class="wave wave-2"></div>
+                <div class="wave wave-3"></div>
+              </div>
+            </div>
+
+            <!-- Simulator Controls -->
+            <div class="sim-controls">
+              <div class="sim-row">
+                <span class="sim-label">Pengatur Suhu:</span>
+                <div class="temp-control-buttons">
+                  <button type="button" class="btn-ctrl" id="btnTempDown" aria-label="Turunkan Suhu">−</button>
+                  <span class="sim-current-temp" id="simTargetTemp">18°C</span>
+                  <button type="button" class="btn-ctrl" id="btnTempUp" aria-label="Naikkan Suhu">+</button>
+                </div>
+              </div>
+
+              <div class="sim-row">
+                <span class="sim-label">Pilih Mode Kerja:</span>
+                <div class="mode-toggles">
+                  <button class="mode-btn active" data-mode="cool">❄️ Cool</button>
+                  <button class="mode-btn" data-mode="turbo">⚡ Turbo</button>
+                  <button class="mode-btn" data-mode="eco">🌱 Eco</button>
+                  <button class="mode-btn" data-mode="dry">💧 Dry</button>
+                </div>
+              </div>
+
+              <div class="sim-stats-grid">
+                <div class="sim-stat-box">
+                  <span class="stat-lbl">Estimasi Daya</span>
+                  <span class="stat-val" id="simWattage">590 W</span>
+                </div>
+                <div class="sim-stat-box">
+                  <span class="stat-lbl">Kualitas Udara</span>
+                  <span class="stat-val text-cyan">99.8% Segar</span>
+                </div>
+                <div class="sim-stat-box">
+                  <span class="stat-lbl">Tingkat Bising</span>
+                  <span class="stat-val text-green">19 dB (Senyap)</span>
+                </div>
+              </div>
+
+              <div class="sim-footer-note">
+                💡 <em>Uji coba simulator kontrol suhu AC. Butuh tahu kapasitas AC yang cocok untuk ruangan Anda? Coba alat kalkulator kami di bawah!</em>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TRUSTED CLIENTS / BRAND PARTNERS -->
+    <section class="brands-marquee-section">
+      <div class="container">
+        <p class="marquee-title">DIPERCAYA MERK TERKEMUKA & MENANGANI RIBUAN UNIT RESIDENSIAL & KOMERSIAL</p>
+        <div class="brands-track">
+          <div class="brand-item">DAIKIN</div>
+          <div class="brand-item">PANASONIC</div>
+          <div class="brand-item">MITSUBISHI ELECTRIC</div>
+          <div class="brand-item">GREE</div>
+          <div class="brand-item">SHARP</div>
+          <div class="brand-item">LG ELECTRONICS</div>
+          <div class="brand-item">SAMSUNG</div>
+          <div class="brand-item">POLYTRON</div>
+          <div class="brand-item">AUX AIR CONDITIONER</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- COMPANY PROFILE SECTION -->
+    <section class="section profile-section" id="profile">
+      <div class="container">
+        <div class="section-header text-center">
+          <span class="section-tag">PROFIL PERUSAHAAN</span>
+          <h2 class="section-title">Solusi Tata Udara Profesional & Berintegritas Sejak 2012</h2>
+          <p class="section-subtitle">
+            Mengenal PT Sejuk Teknik Nusantara — mitra terpercaya ribuan hunian, perkantoran, perhotelan, hingga industri dalam menciptakan sirkulasi udara bersih dan nyaman.
+          </p>
+        </div>
+
+        <div class="profile-grid">
+          <div class="profile-card about-card glass-card">
+            <div class="card-icon-header">
+              <div class="card-icon cyan">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                  <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                </svg>
+              </div>
+              <span class="card-subtitle">Tentang Kami</span>
+            </div>
+            <h3>PT SEJUK TEKNIK NUSANTARA (SEJUKPRO™)</h3>
+            <p>
+              Berdiri lebih dari 12 tahun yang lalu, kami hadir untuk mengubah stigma servis AC yang rawan kecurangan (biaya terselubung, vonis freon palsu, atau pengerjaan asal-asalan). 
+            </p>
+            <p>
+              Dengan standar operasional ketat (SOP Berstandar Internasional), teknisi bersertifikat BNSP, manifold digital akurat, serta chemical pembersih biodegradable anti-korosi, kami menjamin AC Anda kembali dingin seperti baru tanpa merusak komponen.
+            </p>
+            <div class="stat-counters-row">
+              <div class="counter-box">
+                <span class="counter-num">12+</span>
+                <span class="counter-label">Tahun Pengalaman</span>
+              </div>
+              <div class="counter-box">
+                <span class="counter-num">25.000+</span>
+                <span class="counter-label">Unit Diservis</span>
+              </div>
+              <div class="counter-box">
+                <span class="counter-num">98.7%</span>
+                <span class="counter-label">Tingkat Kepuasan</span>
+              </div>
+              <div class="counter-box">
+                <span class="counter-num">65+</span>
+                <span class="counter-label">Teknisi Tersertifikasi</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="profile-card vision-mission-card glass-card">
+            <div class="card-icon-header">
+              <div class="card-icon blue">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"></path>
+                  <path d="M2 12h20"></path>
+                </svg>
+              </div>
+              <span class="card-subtitle">Visi & Misi</span>
+            </div>
+            <h3>Arah & Komitmen Perusahaan</h3>
+            <div class="vision-box">
+              <h4>🎯 Visi Kami</h4>
+              <p>Menjadi pelopor ekosistem layanan tata udara (HVAC) paling transparan, profesional, berteknologi tinggi, dan ramah lingkungan nomor satu di Indonesia.</p>
+            </div>
+            <div class="mission-box">
+              <h4>🚀 Misi Kami</h4>
+              <ul class="check-list">
+                <li>Memberikan pelayanan teknis jujur dan transparan melalui pengukuran digital.</li>
+                <li>Menghadirkan kenyamanan udara bersih dan sehat bebas kuman bagi keluarga dan ruang kerja.</li>
+                <li>Membantu konsumen menghemat konsumsi energi listrik melalui pemilihan kapasitas BTU yang presisi.</li>
+                <li>Mendukung kelestarian alam dengan menghentikan penggunaan freon perusak ozon dan mengedepankan refrigeran ramah lingkungan.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- 4 Pillars of Excellence -->
+        <div class="pillars-section">
+          <h3 class="pillars-title text-center">4 Nilai Keunggulan Utama Layanan Kami</h3>
+          <div class="pillars-grid">
+            <div class="pillar-card glass-card">
+              <div class="pillar-num">01</div>
+              <h4>Teknisi Resmi & BNSP</h4>
+              <p>Seluruh teknisi melewati seleksi ketat, background check, sertifikasi keselamatan kerja, dan pelatihan resmi authorized brand.</p>
+            </div>
+            <div class="pillar-card glass-card">
+              <div class="pillar-num">02</div>
+              <h4>Transparansi Tanpa Modus</h4>
+              <p>Biaya dijelaskan transparan sebelum pengerjaan. Tekanan freon dan ampere kompresor diuji langsung di depan Anda dengan alat digital.</p>
+            </div>
+            <div class="pillar-card glass-card">
+              <div class="pillar-num">03</div>
+              <h4>Garansi Pengerjaan Resmi</h4>
+              <p>Setiap servis cuci, perbaikan, maupun instalasi dilengkapi invoice digital resmi serta garansi pengerjaan hingga 90 hari.</p>
+            </div>
+            <div class="pillar-card glass-card">
+              <div class="pillar-num">04</div>
+              <h4>Peralatan Higienis Modern</h4>
+              <p>Menggunakan jet pump bertekanan khusus anti-rusak kisi, plastik pelindung ruangan bebas cipratan, dan cairan desinfektan steril.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SERVICES & PRICING SECTION -->
+    <section class="section services-section" id="services">
+      <div class="container">
+        <div class="section-header text-center">
+          <span class="section-tag">KATALOG LAYANAN</span>
+          <h2 class="section-title">Solusi Lengkap Perawatan & Tata Udara</h2>
+          <p class="section-subtitle">
+            Pilihan paket servis transparan untuk hunian pribadi, apartemen, kafe, kantor, hingga kontrak pemeliharaan gedung bertingkat.
+          </p>
+        </div>
+
+        <div class="services-grid" id="servicesGrid">
+          <!-- Service Card 1 -->
+          <div class="service-card glass-card">
+            <div class="service-badge">Paling Populer</div>
+            <div class="service-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"></path>
+              </svg>
+            </div>
+            <h3>Cuci AC Standar & Steam Clean</h3>
+            <p class="service-desc">
+              Pembersihan total unit indoor & outdoor, pembersihan filter anti-bakteri, siram talang drainase anti-bocor, dan cek kelistrikan dasar.
+            </p>
+            <div class="service-features">
+              <span>✓ Cuci Evaporator & Blower</span>
+              <span>✓ Cuci Kondensor Outdoor</span>
+              <span>✓ Gratis Cek Tekanan Freon</span>
+              <span>✓ Garansi Cuci 30 Hari</span>
+            </div>
+            <div class="price-box">
+              <span class="price-from">Mulai dari</span>
+              <span class="price-amount">Rp 75.000</span>
+              <span class="price-unit">/ unit (0.5 - 1 PK)</span>
+            </div>
+            <a href="#customer-service" class="btn btn-outline full-width" onclick="preselectService('Cuci AC Standar')">Pesan Cuci AC</a>
+          </div>
+
+          <!-- Service Card 2 -->
+          <div class="service-card glass-card featured-service">
+            <div class="service-badge gold-badge">Rekomendasi Bersih Total</div>
+            <div class="service-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 2v20M2 12h20M4.93 4.93l14.14 14.14M4.93 19.07l14.14-14.14"/>
+              </svg>
+            </div>
+            <h3>Deep Clean & Chemical Treatment</h3>
+            <p class="service-desc">
+              Pembersihan kimia ramah lingkungan khusus kerak lendir membandel, sterilisasi uap temperatur tinggi (99.9% bunuh bakteri & jamur apek).
+            </p>
+            <div class="service-features">
+              <span>✓ Seluruh fitur cuci standar</span>
+              <span>✓ Chemical foam eco-friendly</span>
+              <span>✓ Fogging desinfektan antivirus</span>
+              <span>✓ Garansi Kebocoran 60 Hari</span>
+            </div>
+            <div class="price-box">
+              <span class="price-from">Mulai dari</span>
+              <span class="price-amount">Rp 145.000</span>
+              <span class="price-unit">/ unit</span>
+            </div>
+            <a href="#customer-service" class="btn btn-primary full-width" onclick="preselectService('Deep Clean Chemical')">Pesan Deep Clean</a>
+          </div>
+
+          <!-- Service Card 3 -->
+          <div class="service-card glass-card">
+            <div class="service-badge">Alat Digital Akurat</div>
+            <div class="service-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"></circle>
+                <path d="M16 12l-4-4-4 4M12 8v8"></path>
+              </svg>
+            </div>
+            <h3>Isi / Tambah Freon (R32, R410, R22)</h3>
+            <p class="service-desc">
+              Pengisian refrigeran murni non-oplosan sesuai spesifikasi pabrik. Disertai uji kebocoran pipa & nepel sebelum pengisian.
+            </p>
+            <div class="service-features">
+              <span>✓ Uji manifold gauge digital</span>
+              <span>✓ Cek ampere kompresor</span>
+              <span>✓ Freon R32, R410A, atau R22</span>
+              <span>✓ Garansi Dingin 45 Hari</span>
+            </div>
+            <div class="price-box">
+              <span class="price-from">Tambah freon mulai</span>
+              <span class="price-amount">Rp 150.000</span>
+              <span class="price-unit">/ unit</span>
+            </div>
+            <a href="#customer-service" class="btn btn-outline full-width" onclick="preselectService('Isi / Tambah Freon')">Pesan Freon</a>
+          </div>
+
+          <!-- Service Card 4 -->
+          <div class="service-card glass-card">
+            <div class="service-badge">Standar Pabrikan</div>
+            <div class="service-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path>
+              </svg>
+            </div>
+            <h3>Instalasi & Bongkar Pasang AC</h3>
+            <p class="service-desc">
+              Pemasangan unit baru/pindahan dengan teknik flaring presisi, pemipaan tembaga tebal standar inverter, dan proses vakum wajib.
+            </p>
+            <div class="service-features">
+              <span>✓ Wajib proses vakum pipa</span>
+              <span>✓ Pipa tembaga tebal premium</span>
+              <span>✓ Instalasi rapi dan waterpass</span>
+              <span>✓ Garansi Instalasi 90 Hari</span>
+            </div>
+            <div class="price-box">
+              <span class="price-from">Jasa pasang mulai</span>
+              <span class="price-amount">Rp 250.000</span>
+              <span class="price-unit">/ unit</span>
+            </div>
+            <a href="#customer-service" class="btn btn-outline full-width" onclick="preselectService('Instalasi & Bongkar Pasang')">Pesan Instalasi</a>
+          </div>
+
+          <!-- Service Card 5 -->
+          <div class="service-card glass-card">
+            <div class="service-badge">Teknisi Ahli Elektronik</div>
+            <div class="service-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+              </svg>
+            </div>
+            <h3>Perbaikan PCB, Kompresor & Kebocoran</h3>
+            <p class="service-desc">
+              Solusi masalah teknis: AC mati total, error code berkedip, ganti kapasitor, perbaikan modul PCB Inverter, dan pengelasan pipa bocor.
+            </p>
+            <div class="service-features">
+              <span>✓ Diagnosa alat sensor digital</span>
+              <span>✓ Spare part asli bergaransi</span>
+              <span>✓ Penanganan AC Inverter & Multi</span>
+              <span>✓ Garansi Part s/d 90 Hari</span>
+            </div>
+            <div class="price-box">
+              <span class="price-from">Pemeriksaan teknis</span>
+              <span class="price-amount">Rp 85.000</span>
+              <span class="price-unit">(Gratis jika lanjut servis)</span>
+            </div>
+            <a href="#customer-service" class="btn btn-outline full-width" onclick="preselectService('Perbaikan Teknis / Rusak')">Konsultasi Rusak</a>
+          </div>
+
+          <!-- Service Card 6 -->
+          <div class="service-card glass-card">
+            <div class="service-badge">Korporasi & Bisnis</div>
+            <div class="service-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
+                <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+              </svg>
+            </div>
+            <h3>Kontrak Pemeliharaan Kantor & Industri</h3>
+            <p class="service-desc">
+              Perawatan rutin berkala terjadwal untuk ruko, kantor cabang, restoran, hotel, dan pabrik dengan laporan log sheet & SLA prioritas.
+            </p>
+            <div class="service-features">
+              <span>✓ Kunjungan berkala terjadwal</span>
+              <span>✓ Laporan log kinerja efisiensi</span>
+              <span>✓ Fast-response emergency 24/7</span>
+              <span>✓ Faktur pajak resmi (PPN)</span>
+            </div>
+            <div class="price-box">
+              <span class="price-from">Paket khusus B2B</span>
+              <span class="price-amount">Hubungi Kami</span>
+              <span class="price-unit">SLA Khusus</span>
+            </div>
+            <a href="#customer-service" class="btn btn-outline full-width" onclick="preselectService('Kontrak B2B Kantor')">Ajukan Kerjasama</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CORE INTERACTIVE FEATURE: BTU & PK CALCULATOR TOOL -->
+    <section class="section btu-section" id="btu-calculator">
+      <div class="container">
+        <div class="section-header text-center">
+          <div class="feature-tag">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+              <polyline points="14 2 14 8 20 8"></polyline>
+              <line x1="16" y1="13" x2="8" y2="13"></line>
+              <line x1="16" y1="17" x2="8" y2="17"></line>
+              <polyline points="10 9 9 9 8 9"></polyline>
+            </svg>
+            TOOL KALKULATOR INTERAKTIF
+          </div>
+          <h2 class="section-title">Kalkulator Kebutuhan BTU & Kapasitas PK AC</h2>
+          <p class="section-subtitle">
+            Cegah salah beli kapasitas AC! Gunakan formula standar teknik tata udara (HVAC) kami untuk menghitung daya pendinginan (BTU/hr) dan PK AC yang paling pas, hemat listrik, dan awet.
+          </p>
+        </div>
+
+        <div class="calculator-wrapper glass-card">
+          <!-- Calculator Tabs / Input Mode Selector -->
+          <div class="calc-tabs-bar">
+            <div class="calc-tabs">
+              <button class="calc-tab active" id="tabDimensi" type="button">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 3H3v18h18V3zM9 3v18M15 3v18M3 9h18M3 15h18"/></svg>
+                Input Dimensi (P × L × T)
+              </button>
+              <button class="calc-tab" id="tabLuas" type="button">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/></svg>
+                Input Luas Langsung (m²)
+              </button>
+            </div>
+            <div class="formula-badge">
+              <span>Standard ASHRAE & SNI HVAC</span>
+            </div>
+          </div>
+
+          <div class="calculator-grid">
+            <!-- Left Side: Interactive Controls -->
+            <div class="calc-inputs-pane">
+              <h3 class="pane-title">1. Parameter Ukuran Ruangan</h3>
+
+              <!-- Pane Dimension Mode -->
+              <div id="paneModeDimensi" class="input-mode-pane active">
+                <div class="form-group-slider">
+                  <div class="slider-header">
+                    <label for="inputPanjang">Panjang Ruangan (meter):</label>
+                    <span class="slider-val" id="valPanjang">4.0 m</span>
+                  </div>
+                  <input type="range" id="inputPanjang" min="2" max="15" step="0.5" value="4">
+                  <div class="slider-scale">
+                    <span>2 m</span>
+                    <span>5 m</span>
+                    <span>10 m</span>
+                    <span>15 m</span>
+                  </div>
+                </div>
+
+                <div class="form-group-slider">
+                  <div class="slider-header">
+                    <label for="inputLebar">Lebar Ruangan (meter):</label>
+                    <span class="slider-val" id="valLebar">3.5 m</span>
+                  </div>
+                  <input type="range" id="inputLebar" min="2" max="15" step="0.5" value="3.5">
+                  <div class="slider-scale">
+                    <span>2 m</span>
+                    <span>5 m</span>
+                    <span>10 m</span>
+                    <span>15 m</span>
+                  </div>
+                </div>
+
+                <div class="form-group-slider">
+                  <div class="slider-header">
+                    <label for="inputTinggi">Tinggi Plafon (meter):</label>
+                    <span class="slider-val" id="valTinggi">3.0 m</span>
+                  </div>
+                  <input type="range" id="inputTinggi" min="2.4" max="6.0" step="0.1" value="3.0">
+                  <div class="slider-scale">
+                    <span>2.4 m (Standar)</span>
+                    <span>3.5 m (Tinggi)</span>
+                    <span>6.0 m (Void / Mezanin)</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Pane Luas Mode -->
+              <div id="paneModeLuas" class="input-mode-pane">
+                <div class="form-group-slider">
+                  <div class="slider-header">
+                    <label for="inputLuas">Total Luas Ruangan (m²):</label>
+                    <span class="slider-val" id="valLuas">14 m²</span>
+                  </div>
+                  <input type="range" id="inputLuas" min="4" max="150" step="1" value="14">
+                  <div class="slider-scale">
+                    <span>4 m²</span>
+                    <span>30 m²</span>
+                    <span>70 m²</span>
+                    <span>150 m²</span>
+                  </div>
+                </div>
+              </div>
+
+              <h3 class="pane-title margin-top-md">2. Kondisi & Beban Panas Ruangan</h3>
+
+              <!-- Room Type Selector -->
+              <div class="form-group">
+                <label for="selectRoomType">Fungsi / Jenis Ruangan:</label>
+                <div class="select-wrapper">
+                  <select id="selectRoomType" class="custom-select">
+                    <option value="500" selected>Kamar Tidur (Standar 500 BTU/m²)</option>
+                    <option value="550">Ruang Keluarga / Tamu (Banyak aktivitas, 550 BTU/m²)</option>
+                    <option value="600">Kantor / Ruang Kerja / Studio (Beban komputer, 600 BTU/m²)</option>
+                    <option value="700">Toko / Kafe / Ruang Restoran (Lalu-lalang pintu, 700 BTU/m²)</option>
+                    <option value="750">Ruang Server / Dapur Tertutup (Beban panas tinggi, 750 BTU/m²)</option>
+                  </select>
+                </div>
+              </div>
+
+              <!-- Sunlight Exposure -->
+              <div class="form-group">
+                <label for="selectSunlight">Paparan Sinar Matahari & Jendela:</label>
+                <div class="select-wrapper">
+                  <select id="selectSunlight" class="custom-select">
+                    <option value="1.0" selected>Normal / Terlindung Bayangan / Jendela Berhordeng</option>
+                    <option value="1.1">Cukup Terpapar (Jendela kaca biasa menghadap timur)</option>
+                    <option value="1.2">Terpapar Terik Langsung (Banyak kaca menghadap Barat sore hari)</option>
+                  </select>
+                </div>
+              </div>
+
+              <!-- Floor / Ceiling Condition -->
+              <div class="form-group">
+                <label for="selectCeiling">Posisi Lantai & Kondisi Atap:</label>
+                <div class="select-wrapper">
+                  <select id="selectCeiling" class="custom-select">
+                    <option value="1.0" selected>Lantai Dasar / Ada Lantai 2 di atasnya (Dingin stabil)</option>
+                    <option value="1.1">Lantai Atas Berplafon Gypsum + Reng Baja Ringan</option>
+                    <option value="1.2">Lantai Teratas Langsung Dak Beton / Seng Tanpa Plafon</option>
+                  </select>
+                </div>
+              </div>
+
+              <!-- People Occupancy -->
+              <div class="form-row-2">
+                <div class="form-group">
+                  <label for="inputPeople">Jumlah Orang di Ruangan:</label>
+                  <div class="number-stepper">
+                    <button type="button" class="btn-step" onclick="adjustStep('inputPeople', -1)">−</button>
+                    <input type="number" id="inputPeople" value="2" min="1" max="50">
+                    <button type="button" class="btn-step" onclick="adjustStep('inputPeople', 1)">+</button>
+                  </div>
+                  <small class="hint-text">+500 BTU untuk setiap orang > 2</small>
+                </div>
+
+                <div class="form-group">
+                  <label for="inputElectronics">Perangkat Elektronik (PC/TV/Dispenser):</label>
+                  <div class="number-stepper">
+                    <button type="button" class="btn-step" onclick="adjustStep('inputElectronics', -1)">−</button>
+                    <input type="number" id="inputElectronics" value="1" min="0" max="20">
+                    <button type="button" class="btn-step" onclick="adjustStep('inputElectronics', 1)">+</button>
+                  </div>
+                  <small class="hint-text">+400 BTU per perangkat menyala</small>
+                </div>
+              </div>
+            </div>
+
+            <!-- Right Side: Live Computation & Recommendation Results -->
+            <div class="calc-results-pane">
+              <div class="results-card glass-card">
+                <div class="results-header">
+                  <span class="res-tag">HASIL PERHITUNGAN REAL-TIME</span>
+                  <button type="button" id="btnResetCalc" class="btn-text-reset">Reset Parameter</button>
+                </div>
+
+                <!-- Primary BTU Highlight -->
+                <div class="btu-highlight-box">
+                  <span class="btu-label">Total Beban Pendinginan Ruangan:</span>
+                  <div class="btu-number-wrap">
+                    <span class="btu-number" id="resBtuValue">7.000</span>
+                    <span class="btu-unit">BTU/jam</span>
+                  </div>
+                  <div class="room-stats-summary" id="resRoomSummary">
+                    Luas: 14.0 m² • Volume: 42.0 m³
+                  </div>
+                </div>
+
+                <!-- Recommended PK Box -->
+                <div class="pk-recommendation-card">
+                  <div class="pk-badge-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                    </svg>
+                  </div>
+                  <div class="pk-details">
+                    <span class="pk-caption">Rekomendasi Kapasitas AC:</span>
+                    <h3 class="pk-title" id="resPkTitle">3/4 PK (Paardekracht)</h3>
+                    <p class="pk-sub" id="resPkCoverage">Kapasitas ideal ~7.000 BTU/hr (Aman & Pas Dinginnya)</p>
+                  </div>
+                </div>
+
+                <!-- Inverter vs Standard Recommendation -->
+                <div class="ac-type-box">
+                  <div class="ac-type-header">
+                    <strong>Rekomendasi Jenis Unit:</strong>
+                    <span class="badge-pill-cyan" id="resAcTypeBadge">AC Inverter Direkomendasikan</span>
+                  </div>
+                  <p class="ac-type-desc" id="resAcTypeReason">
+                    Untuk pemakaian rutin lebih dari 5 jam per hari (seperti kamar tidur atau ruang kerja), AC tipe <strong>Inverter</strong> menghemat biaya listrik 30% - 50% karena kompresor menyesuaikan putaran secara halus begitu suhu tercapai.
+                  </p>
+                </div>
+
+                <!-- Power & Estimated Electricity Cost -->
+                <div class="cost-estimate-card">
+                  <div class="cost-header">
+                    <span>Estimasi Pemakaian Listrik:</span>
+                    <strong class="text-green" id="resWattage">~550 - 620 Watt</strong>
+                  </div>
+                  <div class="daily-slider-group">
+                    <div class="slider-header-sm">
+                      <span>Asumsi jam menyala per hari:</span>
+                      <strong id="valHoursDisplay">8 Jam / hari</strong>
+                    </div>
+                    <input type="range" id="inputHoursPerDay" min="2" max="24" step="1" value="8">
+                  </div>
+                  <div class="monthly-cost-row">
+                    <span>Estimasi Biaya Listrik Bulanan:</span>
+                    <strong class="cost-val" id="resMonthlyCost">± Rp 198.000 - Rp 230.000</strong>
+                  </div>
+                  <small class="t-muted">Dihitung berdasarkan tarif listrik PLN nonsubsidi R-1 (~Rp 1.444,70 / kWh) dengan efisiensi Inverter.</small>
+                </div>
+
+                <!-- Quick Consultation Action -->
+                <div class="calc-action-buttons">
+                  <button type="button" class="btn btn-whatsapp full-width" id="btnShareWaCalc">
+                    <svg viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2m.01 1.67c4.54 0 8.24 3.7 8.24 8.24 0 2.2-.86 4.28-2.42 5.83-1.56 1.56-3.63 2.41-5.83 2.41-1.42 0-2.81-.37-4.04-1.07l-.29-.17-3.11.82.83-3.03-.19-.31c-.77-1.25-1.18-2.69-1.18-4.18 0-4.54 3.7-8.24 8.24-8.24m4.52 11.66c-.25-.13-1.47-.72-1.7-.81-.23-.08-.39-.13-.56.13-.17.25-.64.81-.79.97-.14.17-.29.19-.54.06-.25-.13-1.06-.39-2.02-1.25-.75-.67-1.26-1.5-1.41-1.75-.14-.25-.02-.39.11-.51.11-.11.25-.29.38-.44.13-.14.17-.25.25-.42.08-.17.04-.31-.02-.44-.06-.13-.56-1.34-.76-1.84-.2-.49-.4-.42-.56-.43h-.47c-.17 0-.44.06-.67.31-.23.25-.88.86-.88 2.1 0 1.24.9 2.44 1.03 2.61.13.17 1.77 2.7 4.29 3.79.6.26 1.07.41 1.43.53.6.19 1.15.16 1.58.1.48-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.15-1.18-.07-.12-.23-.19-.48-.31z"/>
+                    </svg>
+                    Konsultasikan Hasil ke Teknisi via WhatsApp
+                  </button>
+                  <button type="button" class="btn btn-secondary full-width" id="btnCopyCalcSummary">
+                    📋 Salin Ringkasan Hasil
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- BTU Educational Guide & Reference Table -->
+          <div class="btu-guide-drawer">
+            <h4 class="guide-title">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="12" y1="16" x2="12" y2="12"></line>
+                <line x1="12" y1="8" x2="12.01" y2="8"></line>
+              </svg>
+              Tabel Referensi Cepat Ukuran PK vs Kapasitas BTU Ruangan
+            </h4>
+            <div class="table-responsive">
+              <table class="btu-table">
+                <thead>
+                  <tr>
+                    <th>Kapasitas AC (PK)</th>
+                    <th>Daya Pendingin (BTU/hr)</th>
+                    <th>Rekomendasi Luas Ruang</th>
+                    <th>Estimasi Konsumsi Daya</th>
+                    <th>Cocok Digunakan Untuk</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><strong>1/2 PK</strong></td>
+                    <td>± 5.000 BTU/hr</td>
+                    <td>s/d 10 m²</td>
+                    <td>± 320 - 390 Watt</td>
+                    <td>Kamar tidur anak / Ruang belajar minimalis</td>
+                  </tr>
+                  <tr>
+                    <td><strong>3/4 PK</strong></td>
+                    <td>± 7.000 BTU/hr</td>
+                    <td>10 - 14 m²</td>
+                    <td>± 530 - 620 Watt</td>
+                    <td>Kamar tidur utama standar</td>
+                  </tr>
+                  <tr>
+                    <td><strong>1 PK</strong></td>
+                    <td>± 9.000 BTU/hr</td>
+                    <td>14 - 18 m²</td>
+                    <td>± 690 - 840 Watt</td>
+                    <td>Kamar tidur luas / Studio kerja</td>
+                  </tr>
+                  <tr>
+                    <td><strong>1.5 PK</strong></td>
+                    <td>± 12.000 BTU/hr</td>
+                    <td>18 - 24 m²</td>
+                    <td>± 990 - 1.150 Watt</td>
+                    <td>Ruang keluarga / Kantor sedang</td>
+                  </tr>
+                  <tr>
+                    <td><strong>2 PK</strong></td>
+                    <td>± 18.000 BTU/hr</td>
+                    <td>24 - 36 m²</td>
+                    <td>± 1.450 - 1.800 Watt</td>
+                    <td>Ruang tamu luas / Ruko / Kafe</td>
+                  </tr>
+                  <tr>
+                    <td><strong>2.5 PK</strong></td>
+                    <td>± 24.000 BTU/hr</td>
+                    <td>36 - 48 m²</td>
+                    <td>± 1.900 - 2.400 Watt</td>
+                    <td>Aula pertemuan / Restoran terbuka</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <div class="btu-danger-note">
+              <div class="danger-box">
+                <h5>⚠️ Mengapa Jangan Pilih PK Terlalu Kecil?</h5>
+                <p>Kompresor akan dipaksa bekerja terus menerus pada putaran maksimal tanpa pernah jeda istirahat. Akibatnya: tagihan listrik membengkak, mesin cepat rusak/overheat, dan ruangan tetap terasa gerah.</p>
+              </div>
+              <div class="danger-box">
+                <h5>⚠️ Mengapa Jangan Pilih PK Terlalu Besar?</h5>
+                <p>Ruangan mendingin terlalu cepat sebelum kelembaban sempat ditarik keluar. Ruangan terasa dingin basah/lembap tidak sehat, dan kompresor AC standar sering start-stop (lonjakan watt awal tinggi).</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TROUBLESHOOTING / DIAGNOSA CEPAT SECTION -->
+    <section class="section troubleshooter-section" id="troubleshooter">
+      <div class="container">
+        <div class="section-header text-center">
+          <span class="section-tag">PANDUAN MASALAH</span>
+          <h2 class="section-title">Diagnosa Cepat Gangguan AC Anda</h2>
+          <p class="section-subtitle">
+            Pilih gejala yang dialami AC Anda saat ini untuk mengetahui perkiraan penyebab dan solusi penanganan yang tepat sebelum teknisi datang.
+          </p>
+        </div>
+
+        <div class="diag-container glass-card">
+          <div class="diag-selector">
+            <label class="diag-label">Pilih Gejala Gangguan AC:</label>
+            <div class="diag-pills-wrap" id="diagPillsContainer">
+              <button class="diag-pill active" data-issue="kurang-dingin">
+                🌬️ AC Tidak Dingin / Cuma Angin
+              </button>
+              <button class="diag-pill" data-issue="bocor-air">
+                💧 AC Menetes / Bocor Air Indoor
+              </button>
+              <button class="diag-pill" data-issue="bau-apek">
+                🦨 Bau Apek / Asam Tak Sedap
+              </button>
+              <button class="diag-pill" data-issue="berisik">
+                🔊 Suara Bising / Bergetar
+              </button>
+              <button class="diag-pill" data-issue="mati-total">
+                ⚡ Mati Total / Lampu Timer Kedip
+              </button>
+            </div>
+          </div>
+
+          <div class="diag-result-card" id="diagResultBox">
+            <div class="diag-header">
+              <span class="diag-icon-status" id="diagIcon">🌬️</span>
+              <div>
+                <h3 id="diagTitle">AC Hanya Menghembuskan Angin Biasa (Kurang Dingin)</h3>
+                <span class="diag-severity" id="diagSeverity">Tingkat Penanganan: Perlu Servis Rutin / Cek Freon</span>
+              </div>
+            </div>
+
+            <div class="diag-details-grid">
+              <div class="diag-column">
+                <h4>🔍 Kemungkinan Besar Penyebab:</h4>
+                <ul id="diagCauses" class="diag-list">
+                  <li>Filter udara dan kisi evaporator tertutup lapisan debu tebal.</li>
+                  <li>Outdoor unit kotor sehingga pelepasan panas kompresor terhambat.</li>
+                  <li>Tekanan freon berkurang akibat kebocoran halus di sambungan pipa/nepel.</li>
+                  <li>Kapasitor starting kompresor melemah atau rusak.</li>
+                </ul>
+              </div>
+
+              <div class="diag-column">
+                <h4>🛠️ Langkah Pertolongan Awal:</h4>
+                <ul id="diagFixes" class="diag-list">
+                  <li>Buka cover depan indoor, lepas saringan filter lalu cuci dengan air mengalir dan keringkan.</li>
+                  <li>Pastikan remote dalam mode COOL (lambang salju), bukan mode FAN atau DRY.</li>
+                  <li>Cek apakah kipas pada unit outdoor berputar saat AC dinyalakan.</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="diag-cta-bar">
+              <span id="diagAdvice">💡 Saran: Jadwalkan pencucian AC & uji tekanan freon segera agar kompresor tidak aus.</span>
+              <button class="btn btn-primary" id="btnBookFromDiag">
+                Pesan Teknisi untuk Masalah Ini &rarr;
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CUSTOMER SERVICE & BOOKING PORTAL (PRIMARY CS SECTION) -->
+    <section class="section cs-section" id="customer-service">
+      <div class="container">
+        <div class="section-header text-center">
+          <span class="section-tag highlight-tag">PUSAT PELAYANAN PELANGGAN</span>
+          <h2 class="section-title">Pelayanan Pelanggan & Booking Servis Online 24/7</h2>
+          <p class="section-subtitle">
+            Kami siap melayani kebutuhan pendingin ruangan Anda. Kirim formulir jadwal kedatangan teknisi atau hubungi langsung CS Siaga kami via WhatsApp & Telepon.
+          </p>
+        </div>
+
+        <div class="cs-layout-grid">
+          <!-- Left Column: Booking Form -->
+          <div class="cs-form-column glass-card">
+            <div class="cs-card-badge">
+              <span class="pulse-dot"></span>
+              Sistem Penjadwalan Terintegrasi
+            </div>
+            <h3>Formulir Pemesanan Teknisi & Pengaduan</h3>
+            <p class="form-instruction">Isi data singkat berikut. Jadwal Anda akan otomatis terkonfirmasi dan terhubung ke WhatsApp CS resmi kami.</p>
+
+            <form id="bookingForm" class="booking-form" novalidate>
+              <div class="form-row-2">
+                <div class="form-field">
+                  <label for="custName">Nama Lengkap <span class="required">*</span></label>
+                  <input type="text" id="custName" placeholder="Contoh: Bpk. Hendra Gunawan" required>
+                  <span class="err-msg">Nama wajib diisi</span>
+                </div>
+                <div class="form-field">
+                  <label for="custPhone">Nomor WhatsApp / HP <span class="required">*</span></label>
+                  <input type="tel" id="custPhone" placeholder="Contoh: 081226818063" required>
+                  <span class="err-msg">Nomor WhatsApp wajib diisi</span>
+                </div>
+              </div>
+
+              <div class="form-field">
+                <label for="custAddress">Alamat Lengkap & Kota / Wilayah <span class="required">*</span></label>
+                <textarea id="custAddress" rows="2" placeholder="Nama Jalan, No. Rumah, RT/RW, Kelurahan, Kecamatan, Kota" required></textarea>
+                <span class="err-msg">Alamat wajib diisi</span>
+              </div>
+
+              <div class="form-row-2">
+                <div class="form-field">
+                  <label for="custService">Pilihan Layanan Utama <span class="required">*</span></label>
+                  <div class="select-wrapper">
+                    <select id="custService" required>
+                      <option value="" disabled selected>Pilih Jenis Servis...</option>
+                      <option value="Cuci AC Standar">Cuci AC Standar (0.5 - 1 PK)</option>
+                      <option value="Deep Clean Chemical">Deep Clean & Chemical Treatment</option>
+                      <option value="Isi / Tambah Freon">Tambah / Isi Freon (R32 / R410 / R22)</option>
+                      <option value="Instalasi & Bongkar Pasang">Pasang Baru / Bongkar Pasang Pindahan</option>
+                      <option value="Perbaikan Teknis / Rusak">Perbaikan AC Rusak / Bocor / Mati</option>
+                      <option value="Kontrak B2B Kantor">Kontrak Perawatan Kantor / Gedung</option>
+                      <option value="Konsultasi Pengadaan">Konsultasi Pembelian & BTU Ruangan</option>
+                    </select>
+                  </div>
+                  <span class="err-msg">Silakan pilih layanan</span>
+                </div>
+
+                <div class="form-field">
+                  <label for="custUnitCount">Jumlah Unit AC <span class="required">*</span></label>
+                  <div class="select-wrapper">
+                    <select id="custUnitCount" required>
+                      <option value="1 Unit">1 Unit AC</option>
+                      <option value="2 Unit">2 Unit AC</option>
+                      <option value="3 Unit">3 Unit AC (Diskon Paket)</option>
+                      <option value="4 - 5 Unit">4 - 5 Unit AC</option>
+                      <option value="Lebih dari 5 Unit">Lebih dari 5 Unit (Komersil / Kantor)</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-row-2">
+                <div class="form-field">
+                  <label for="custBrand">Merk & Tipe AC</label>
+                  <input type="text" id="custBrand" placeholder="Contoh: Daikin Inverter 1 PK, Sharp 1/2 PK">
+                </div>
+                <div class="form-field">
+                  <label for="custDate">Pilihan Tanggal Kunjungan <span class="required">*</span></label>
+                  <input type="date" id="custDate" required>
+                  <span class="err-msg">Tentukan tanggal kunjungan</span>
+                </div>
+              </div>
+
+              <div class="form-row-2">
+                <div class="form-field">
+                  <label for="custTimeSlot">Pilihan Jam Kedatangan <span class="required">*</span></label>
+                  <div class="select-wrapper">
+                    <select id="custTimeSlot" required>
+                      <option value="Pagi (08:30 - 11:30)">Pagi (08:30 - 11:30 WIB)</option>
+                      <option value="Siang (11:30 - 14:30)">Siang (11:30 - 14:30 WIB)</option>
+                      <option value="Sore (14:30 - 17:30)">Sore (14:30 - 17:30 WIB)</option>
+                      <option value="Malam / Darurat (18:30 - 21:00)">Malam / Darurat (18:30 - 21:00 WIB)</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="form-field">
+                  <label for="custPayment">Metode Pembayaran</label>
+                  <div class="select-wrapper">
+                    <select id="custPayment">
+                      <option value="Transfer Bank / QRIS">Transfer Bank / QRIS (Setelah Selesai)</option>
+                      <option value="Tunai ke Teknisi">Tunai ke Teknisi (Setelah Selesai)</option>
+                      <option value="Invoice Perusahaan (B2B)">Invoice PO Perusahaan (Khusus Korporasi)</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-field">
+                <label for="custNotes">Keluhan atau Catatan Tambahan</label>
+                <textarea id="custNotes" rows="2" placeholder="Jelaskan kondisi AC (misal: sudah 4 bulan tidak dicuci, ada tetesan air di kamar, atau posisi outdoor di dak lantai 3)"></textarea>
+              </div>
+
+              <div class="form-submit-actions">
+                <button type="submit" class="btn btn-primary btn-lg full-width pulse-shadow" id="btnSubmitBooking">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M22 2L11 13"></path>
+                    <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                  </svg>
+                  Kirim Booking & Hubungkan ke WhatsApp CS
+                </button>
+              </div>
+            </form>
+          </div>
+
+          <!-- Right Column: CS Contact Channels & Service SLA -->
+          <div class="cs-info-column">
+            <!-- Fast CS Contact Card -->
+            <div class="cs-contact-card glass-card">
+              <div class="cs-header-badge">
+                <span class="online-beacon"></span>
+                <span>Customer Care Online Sekarang</span>
+              </div>
+              <h3>Kontak Langsung Tim Layanan Pelanggan</h3>
+              <p>Butuh tanggapan cepat atau keadaan darurat AC mati di malam hari? Hubungi jalur telepon atau WhatsApp langsung di bawah ini:</p>
+
+              <div class="cs-channels-list">
+                <!-- Channel 1 -->
+                <a href="https://wa.me/6281226818063?text=Halo%20CS%20SejukPro%2C%20saya%20ingin%20konsultasi%20servis%20AC" target="_blank" rel="noopener noreferrer" class="channel-card">
+                  <div class="channel-icon wa-bg">
+                    <svg viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2m.01 1.67c4.54 0 8.24 3.7 8.24 8.24 0 2.2-.86 4.28-2.42 5.83-1.56 1.56-3.63 2.41-5.83 2.41-1.42 0-2.81-.37-4.04-1.07l-.29-.17-3.11.82.83-3.03-.19-.31c-.77-1.25-1.18-2.69-1.18-4.18 0-4.54 3.7-8.24 8.24-8.24m4.52 11.66c-.25-.13-1.47-.72-1.7-.81-.23-.08-.39-.13-.56.13-.17.25-.64.81-.79.97-.14.17-.29.19-.54.06-.25-.13-1.06-.39-2.02-1.25-.75-.67-1.26-1.5-1.41-1.75-.14-.25-.02-.39.11-.51.11-.11.25-.29.38-.44.13-.14.17-.25.25-.42.08-.17.04-.31-.02-.44-.06-.13-.56-1.34-.76-1.84-.2-.49-.4-.42-.56-.43h-.47c-.17 0-.44.06-.67.31-.23.25-.88.86-.88 2.1 0 1.24.9 2.44 1.03 2.61.13.17 1.77 2.7 4.29 3.79.6.26 1.07.41 1.43.53.6.19 1.15.16 1.58.1.48-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.15-1.18-.07-.12-.23-.19-.48-.31z"/>
+                    </svg>
+                  </div>
+                  <div class="channel-meta">
+                    <span class="channel-role">WhatsApp CS 1 - Konsultasi & Jadwal</span>
+                    <strong class="channel-number">+62 812-2681-8063</strong>
+                    <span class="channel-status text-green">● Online (Respon Rata-rata 3 Menit)</span>
+                  </div>
+                </a>
+
+                <!-- Channel 2 -->
+                <a href="https://wa.me/6281226818063?text=Halo%20CS%20SejukPro%2C%20saya%20ingin%20klaim%20garansi%20servis" target="_blank" rel="noopener noreferrer" class="channel-card">
+                  <div class="channel-icon wa-bg">
+                    <svg viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2m.01 1.67c4.54 0 8.24 3.7 8.24 8.24 0 2.2-.86 4.28-2.42 5.83-1.56 1.56-3.63 2.41-5.83 2.41-1.42 0-2.81-.37-4.04-1.07l-.29-.17-3.11.82.83-3.03-.19-.31c-.77-1.25-1.18-2.69-1.18-4.18 0-4.54 3.7-8.24 8.24-8.24m4.52 11.66c-.25-.13-1.47-.72-1.7-.81-.23-.08-.39-.13-.56.13-.17.25-.64.81-.79.97-.14.17-.29.19-.54.06-.25-.13-1.06-.39-2.02-1.25-.75-.67-1.26-1.5-1.41-1.75-.14-.25-.02-.39.11-.51.11-.11.25-.29.38-.44.13-.14.17-.25.25-.42.08-.17.04-.31-.02-.44-.06-.13-.56-1.34-.76-1.84-.2-.49-.4-.42-.56-.43h-.47c-.17 0-.44.06-.67.31-.23.25-.88.86-.88 2.1 0 1.24.9 2.44 1.03 2.61.13.17 1.77 2.7 4.29 3.79.6.26 1.07.41 1.43.53.6.19 1.15.16 1.58.1.48-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.15-1.18-.07-.12-.23-.19-.48-.31z"/>
+                    </svg>
+                  </div>
+                  <div class="channel-meta">
+                    <span class="channel-role">WhatsApp CS 2 - Klaim Garansi & B2B</span>
+                    <strong class="channel-number">+62 812-2681-8063</strong>
+                    <span class="channel-status text-green">● Online (Prioritas Garansi)</span>
+                  </div>
+                </a>
+
+                <!-- Channel 3 -->
+                <a href="tel:0215551234" class="channel-card">
+                  <div class="channel-icon phone-bg">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+                    </svg>
+                  </div>
+                  <div class="channel-meta">
+                    <span class="channel-role">Hotline Telepon Kantor Pusat</span>
+                    <strong class="channel-number">(021) 555-1234</strong>
+                    <span class="channel-status">Senin - Minggu: 07:00 - 21:00 WIB</span>
+                  </div>
+                </a>
+
+                <!-- Channel 4 -->
+                <a href="mailto:layanan@sejukpro.co.id" class="channel-card">
+                  <div class="channel-icon mail-bg">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                      <polyline points="22,6 12,13 2,6"></polyline>
+                    </svg>
+                  </div>
+                  <div class="channel-meta">
+                    <span class="channel-role">Email Layanan Resmi & Kerjasama</span>
+                    <strong class="channel-number">layanan@sejukpro.co.id</strong>
+                    <span class="channel-status">Proposal B2B & Penawaran Tender</span>
+                  </div>
+                </a>
+              </div>
+            </div>
+
+            <!-- SOP & 5-Step Customer Journey -->
+            <div class="sop-card glass-card">
+              <h4>📋 Standar Layanan Pelanggan (SOP 5 Langkah)</h4>
+              <div class="sop-steps">
+                <div class="sop-step">
+                  <div class="sop-num">1</div>
+                  <div class="sop-text">
+                    <strong>Pemesanan & Konfirmasi</strong>
+                    <span>Pilih jadwal, CS kami mengonfirmasi nama teknisi & estimasi biaya.</span>
+                  </div>
+                </div>
+                <div class="sop-step">
+                  <div class="sop-num">2</div>
+                  <div class="sop-text">
+                    <strong>Kedatangan Berseragam & ID Card</strong>
+                    <span>Teknisi tiba tepat waktu membawa perlengkapan pelindung dan plastik cover.</span>
+                  </div>
+                </div>
+                <div class="sop-step">
+                  <div class="sop-num">3</div>
+                  <div class="sop-text">
+                    <strong>Cek Awal di Depan Pelanggan</strong>
+                    <span>Pengecekan suhu keluar, tekanan freon digital, dan kondisi fisik sebelum dibongkar.</span>
+                  </div>
+                </div>
+                <div class="sop-step">
+                  <div class="sop-num">4</div>
+                  <div class="sop-text">
+                    <strong>Pengerjaan Rapi & Bersih</strong>
+                    <span>Pencucian steam higienis tanpa mengotori lantai maupun dinding ruangan Anda.</span>
+                  </div>
+                </div>
+                <div class="sop-step">
+                  <div class="sop-num">5</div>
+                  <div class="sop-text">
+                    <strong>Kartu Garansi & Invoice Digital</strong>
+                    <span>Penerbitan bukti garansi resmi hingga 90 hari langsung ke WhatsApp Anda.</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TESTIMONIALS SECTION -->
+    <section class="section testi-section">
+      <div class="container">
+        <div class="section-header text-center">
+          <span class="section-tag">ULASAN PELANGGAN</span>
+          <h2 class="section-title">Apa Kata Mereka Tentang SEJUKPRO?</h2>
+          <p class="section-subtitle">
+            Lebih dari 25.000 pelanggan telah mempercayakan kenyamanan udara sejuk rumah dan kantor mereka kepada kami.
+          </p>
+        </div>
+
+        <div class="testi-grid">
+          <div class="testi-card glass-card">
+            <div class="stars">★★★★★</div>
+            <p class="testi-text">
+              "Kalkulator BTU di web ini sangat akurat! Dulu kamar 4x5 saya dipasangin 1/2 PK sama tukang lama ga dingin-dingin. Begitu hitung disini rekomendasinya 1 PK, setelah ganti unit dan diservis SEJUKPRO, dinginnya pas dan listrik malah lebih hemat!"
+            </p>
+            <div class="testi-user">
+              <div class="user-avatar">RH</div>
+              <div>
+                <strong>Rian Hidayat</strong>
+                <span>Pemilik Hunian di BSD Tangerang</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="testi-card glass-card">
+            <div class="stars">★★★★★</div>
+            <p class="testi-text">
+              "Pelayanan pelanggannya luar biasa responsif. Booking jam 9 pagi, jam 11 teknisi sudah datang. Yang paling saya suka ada penjelasan tekanan freon pakai alat digital, jadi ga ada modus tipu-tipu vonis freon habis. Sangat profesional!"
+            </p>
+            <div class="testi-user">
+              <div class="user-avatar">DS</div>
+              <div>
+                <strong>Dewi Sartika</strong>
+                <span>Apartemen Mediterania Jakarta Barat</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="testi-card glass-card">
+            <div class="stars">★★★★★</div>
+            <p class="testi-text">
+              "Kami menggunakan jasa SEJUKPRO untuk maintenance rutin 14 unit AC di kantor agency kami. Selalu tepat waktu, ada laporan tertulis, dan jika ada AC bocor langsung ditangani dalam hitungan jam. Sangat recomended untuk B2B!"
+            </p>
+            <div class="testi-user">
+              <div class="user-avatar">BW</div>
+              <div>
+                <strong>Budi Wicaksono</strong>
+                <span>Operations Manager PT Digital Kreasi</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ SECTION -->
+    <section class="section faq-section" id="faq">
+      <div class="container">
+        <div class="section-header text-center">
+          <span class="section-tag">PERTANYAAN UMUM</span>
+          <h2 class="section-title">Pertanyaan yang Sering Diajukan (FAQ)</h2>
+          <p class="section-subtitle">
+            Jawaban lengkap seputar servis AC, freon, garansi pengerjaan, dan efisiensi listrik.
+          </p>
+        </div>
+
+        <div class="faq-accordion-wrap">
+          <div class="faq-item glass-card active">
+            <button class="faq-question" type="button">
+              <span>Berapa bulan sekali AC idealnya harus dicuci rutin?</span>
+              <span class="faq-arrow">▾</span>
+            </button>
+            <div class="faq-answer">
+              <p>
+                Untuk pemakaian normal di rumah tinggal (8-12 jam per hari), pencucian rutin ideal dilakukan setiap <strong>3 bulan sekali</strong>. Namun jika AC berada di kamar tidur bayi, area dekat jalan raya berdebu, atau ruangan perokok, disarankan mencuci setiap <strong>2 bulan sekali</strong> agar kisi evaporator tidak berlendir tebal yang memicu alergi dan boros listrik.
+              </p>
+            </div>
+          </div>
+
+          <div class="faq-item glass-card">
+            <button class="faq-question" type="button">
+              <span>Benarkah freon AC harus diisi atau ditambah setiap kali servis cuci?</span>
+              <span class="faq-arrow">▾</span>
+            </button>
+            <div class="faq-answer">
+              <p>
+                <strong>Mitos keliru!</strong> Pada sistem AC yang tertutup rapat dan tidak ada kebocoran sambungan pipa, freon tidak akan pernah habis atau berkurang bertahun-tahun. Teknisi SEJUKPRO akan menguji tekanan dengan manifold gauge digital di depan Anda. Jika tidak bocor dan tekanan normal (R32 / R410A: ~140-160 PSI), Anda <em>sama sekali tidak perlu membayar biaya freon</em>.
+              </p>
+            </div>
+          </div>
+
+          <div class="faq-item glass-card">
+            <button class="faq-question" type="button">
+              <span>Apa perbedaan utama AC Inverter dengan AC Standar (Non-Inverter)?</span>
+              <span class="faq-arrow">▾</span>
+            </button>
+            <div class="faq-answer">
+              <p>
+                AC Standar bekerja dengan cara kompresor hidup-mati (on-off) bergantian secara ekstrem, menyebabkan tarikan daya listrik berulang. Sedangkan <strong>AC Inverter</strong> menggunakan kompresor pintar yang hanya menurunkan kecepatan putaran begitu suhu ruangan tercapai. Hasilnya: suhu stabil tanpa fluktuasi, jauh lebih hening, dan menghemat konsumsi listrik hingga 30% - 50% untuk pemakaian jangka panjang.
+              </p>
+            </div>
+          </div>
+
+          <div class="faq-item glass-card">
+            <button class="faq-question" type="button">
+              <span>Bagaimana prosedur klaim garansi jika AC bermasalah kembali?</span>
+              <span class="faq-arrow">▾</span>
+            </button>
+            <div class="faq-answer">
+              <p>
+                Sangat mudah! Anda cukup menghubungi WhatsApp Layanan Pelanggan kami (+62 812-2681-8063) dengan menyebutkan nomor ponsel atau foto invoice digital Anda. Tim teknisi kami akan segera dijadwalkan ulang untuk kunjungan perbaikan tanpa dipungut biaya tambahan (100% Bebas Biaya) selama masa garansi aktif (30 - 90 hari tergantung jenis pekerjaan).
+              </p>
+            </div>
+          </div>
+
+          <div class="faq-item glass-card">
+            <button class="faq-question" type="button">
+              <span>Apakah ada biaya transportasi tambahan untuk teknisi?</span>
+              <span class="faq-arrow">▾</span>
+            </button>
+            <div class="faq-answer">
+              <p>
+                Biaya transportasi teknisi sudah <strong>GRATIS (Termasuk)</strong> untuk wilayah dalam cakupan operasional utama kami jika Anda mengambil layanan servis cuci atau perbaikan. Tidak ada biaya siluman atau pungutan liar.
+              </p>
+            </div>
+          </div>
+
+          <div class="faq-item glass-card">
+            <button class="faq-question" type="button">
+              <span>Bagaimana jika hasil hitungan kalkulator BTU berada di antara 2 ukuran PK?</span>
+              <span class="faq-arrow">▾</span>
+            </button>
+            <div class="faq-answer">
+              <p>
+                Jika kebutuhan BTU ruangan Anda berada di perbatasan (misalnya 7.800 BTU/hr, antara 3/4 PK [7.000 BTU] dan 1 PK [9.000 BTU]), kami sangat menyarankan untuk <strong>memilih ukuran kapasitas di atasnya (1 PK tipe Inverter)</strong>. Memilih kapasitas yang lebih tinggi sedikit membuat ruangan cepat dingin, kompresor beristirahat lebih cepat, dan konsumsi watt tetap rendah.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA BANNER SECTION -->
+    <section class="cta-banner-section">
+      <div class="container">
+        <div class="cta-banner-card">
+          <div class="cta-content">
+            <h2>Ruangan Anda Terasa Gerah & AC Kurang Dingin?</h2>
+            <p>Jangan tunggu kompresor rusak! Hubungi tim teknisi SEJUKPRO hari ini dan rasakan kembali hembusan udara sejuk segar seperti AC baru.</p>
+          </div>
+          <div class="cta-buttons">
+            <a href="#customer-service" class="btn btn-primary btn-lg">Pesan Teknisi Sekarang</a>
+            <a href="https://wa.me/6281226818063?text=Halo%20CS%20SejukPro%2C%20mau%20tanya%20jadwal%20servis%20AC" target="_blank" rel="noopener noreferrer" class="btn btn-whatsapp btn-lg">
+              Chat WhatsApp CS 24 Jam
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container footer-grid">
+      <div class="footer-col brand-col">
+        <div class="brand-logo footer-logo">
+          <div class="logo-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M12 2v20M2 12h20M4.93 4.93l14.14 14.14M4.93 19.07l14.14-14.14"/>
+              <circle cx="12" cy="12" r="3"/>
+            </svg>
+          </div>
+          <div class="brand-text">
+            <span class="brand-name">SEJUK<span>PRO</span></span>
+            <span class="brand-sub">PT SEJUK TEKNIK NUSANTARA</span>
+          </div>
+        </div>
+        <p class="footer-desc">
+          Penyedia jasa tata udara, pemeliharaan sistem pendingin (HVAC), instalasi AC terkemuka dengan reputasi keandalan, kejujuran teknis, dan kepuasan pelanggan nomor satu di Indonesia.
+        </p>
+        <div class="footer-socials">
+          <a href="#" aria-label="Instagram">Instagram</a>
+          <a href="#" aria-label="Facebook">Facebook</a>
+          <a href="#" aria-label="LinkedIn">LinkedIn</a>
+          <a href="#" aria-label="YouTube">YouTube</a>
+        </div>
+      </div>
+
+      <div class="footer-col">
+        <h4 class="footer-heading">Navigasi Cepat</h4>
+        <ul class="footer-links">
+          <li><a href="#hero">Beranda</a></li>
+          <li><a href="#profile">Profil Perusahaan</a></li>
+          <li><a href="#services">Daftar Layanan & Biaya</a></li>
+          <li><a href="#btu-calculator">Tools Kalkulator BTU</a></li>
+          <li><a href="#troubleshooter">Diagnosa Cepat Masalah AC</a></li>
+          <li><a href="#customer-service">Pusat Pelayanan Pelanggan</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4 class="footer-heading">Layanan Unggulan</h4>
+        <ul class="footer-links">
+          <li><a href="#services">Cuci AC Steam Bertekanan</a></li>
+          <li><a href="#services">Chemical Deep Clean Higienis</a></li>
+          <li><a href="#services">Tambah & Isi Freon R32/R410A</a></li>
+          <li><a href="#services">Instalasi AC Split & Inverter</a></li>
+          <li><a href="#services">Perbaikan Modul PCB & Kompresor</a></li>
+          <li><a href="#services">Maintenance Kontrak Gedung</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4 class="footer-heading">Kantor & Layanan CS</h4>
+        <address class="footer-address">
+          <p><strong>Kantor Pusat & Workshop:</strong></p>
+          <p>Gedung Sejuk Nusantara Lt. 2-3<br>Jl. Rasuna Arteri Pendingin No. 88<br>Jakarta Selatan 12950</p>
+          <p class="contact-line"><strong>📞 Hotline:</strong> (021) 555-1234</p>
+          <p class="contact-line"><strong>💬 WhatsApp CS:</strong> +62 812-2681-8063</p>
+          <p class="contact-line"><strong>✉️ Email:</strong> layanan@sejukpro.co.id</p>
+          <p class="contact-line"><strong>⏰ Jam Kerja:</strong> Senin - Minggu (07.00 - 21.00 WIB)<br><em>Unit Emergency 24 Jam Siaga</em></p>
+        </address>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <div class="container footer-bottom-inner">
+        <p>&copy; 2026 PT Sejuk Teknik Nusantara (SEJUKPRO™). Seluruh hak cipta dilindungi undang-undang.</p>
+        <div class="legal-links">
+          <a href="#">Kebijakan Privasi</a>
+          <a href="#">Syarat & Ketentuan Garansi</a>
+          <a href="#">SOP Teknisi</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- FLOATING WHATSAPP & SUPPORT WIDGET -->
+  <aside class="floating-widget-wrapper" aria-label="Widget bantuan WhatsApp">
+    <!-- Quick WhatsApp Dialog Popover -->
+    <div class="wa-popup-card" id="waPopupCard">
+      <div class="wa-popup-header">
+        <div class="wa-popup-avatar">
+          <svg viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/>
+          </svg>
+          <span class="wa-live-dot"></span>
+        </div>
+        <div>
+          <h4>Customer Service SEJUKPRO</h4>
+          <span class="wa-time-status">Aktif sekarang • Respon instan</span>
+        </div>
+        <button type="button" class="wa-close-btn" id="waCloseBtn" aria-label="Tutup popup">&times;</button>
+      </div>
+      <div class="wa-popup-body">
+        <div class="chat-bubble received">
+          Halo! Ada yang bisa kami bantu seputar AC rumah atau kantor Anda hari ini? Silakan pilih bantuan cepat di bawah:
+        </div>
+        <div class="quick-prompt-buttons">
+          <button class="btn-prompt" onclick="openWaWithText('Halo CS SejukPro, saya mau tanya biaya cuci AC di area saya')">
+            💰 Tanya Biaya Cuci AC
+          </button>
+          <button class="btn-prompt" onclick="openWaWithText('Halo CS SejukPro, AC saya bocor air dan tidak dingin, butuh teknisi hari ini')">
+            🚨 AC Rusak / Bocor Air
+          </button>
+          <button class="btn-prompt" onclick="openWaWithText('Halo CS SejukPro, saya mau konsultasi hasil hitungan Kalkulator BTU ruangan')">
+            📐 Konsultasi Kapasitas BTU Ruangan
+          </button>
+          <button class="btn-prompt" onclick="openWaWithText('Halo CS SejukPro, saya mau tanya kontrak pemeliharaan AC kantor')">
+            🏢 Penawaran B2B Kantor
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Floating Trigger Buttons -->
+    <div class="floating-triggers">
+      <button class="floating-btn wa-trigger-btn" id="waTriggerBtn" aria-label="Buka Chat Layanan Pelanggan WhatsApp">
+        <span class="floating-notification">1</span>
+        <svg viewBox="0 0 24 24" fill="currentColor">
+          <path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2m.01 1.67c4.54 0 8.24 3.7 8.24 8.24 0 2.2-.86 4.28-2.42 5.83-1.56 1.56-3.63 2.41-5.83 2.41-1.42 0-2.81-.37-4.04-1.07l-.29-.17-3.11.82.83-3.03-.19-.31c-.77-1.25-1.18-2.69-1.18-4.18 0-4.54 3.7-8.24 8.24-8.24m4.52 11.66c-.25-.13-1.47-.72-1.7-.81-.23-.08-.39-.13-.56.13-.17.25-.64.81-.79.97-.14.17-.29.19-.54.06-.25-.13-1.06-.39-2.02-1.25-.75-.67-1.26-1.5-1.41-1.75-.14-.25-.02-.39.11-.51.11-.11.25-.29.38-.44.13-.14.17-.25.25-.42.08-.17.04-.31-.02-.44-.06-.13-.56-1.34-.76-1.84-.2-.49-.4-.42-.56-.43h-.47c-.17 0-.44.06-.67.31-.23.25-.88.86-.88 2.1 0 1.24.9 2.44 1.03 2.61.13.17 1.77 2.7 4.29 3.79.6.26 1.07.41 1.43.53.6.19 1.15.16 1.58.1.48-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.15-1.18-.07-.12-.23-.19-.48-.31z"/>
+        </svg>
+      </button>
+
+      <button class="floating-btn scroll-top-btn" id="scrollTopBtn" aria-label="Kembali ke atas">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polyline points="18 15 12 9 6 15"></polyline>
+        </svg>
+      </button>
+    </div>
+  </aside>
+
+  <!-- BOOKING SUCCESS MODAL -->
+  <dialog class="modal-dialog" id="bookingSuccessModal" aria-labelledby="modalTitle">
+    <div class="modal-box glass-card">
+      <div class="modal-icon-success">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+          <polyline points="22 4 12 14.01 9 11.01"></polyline>
+        </svg>
+      </div>
+      <h3 id="modalTitle">Booking Servis Berhasil Tercatat!</h3>
+      <p id="modalBookingSummary">Data pemesanan jadwal teknisi Anda telah kami siapkan. Klik tombol di bawah untuk membuka obrolan langsung WhatsApp dengan Customer Service kami agar jadwal diprioritaskan.</p>
+      <div class="modal-actions">
+        <a href="#" target="_blank" rel="noopener noreferrer" class="btn btn-whatsapp btn-lg full-width" id="modalWaActionBtn">
+          Buka WhatsApp CS & Kirim Rincian
+        </a>
+        <button type="button" class="btn btn-secondary full-width" id="modalCloseBtn">
+          Tutup
+        </button>
+      </div>
+    </div>
+  </dialog>
+
+  <!-- TOAST NOTIFICATION CONTAINER -->
+  <div class="toast-container" id="toastContainer" aria-live="polite"></div>
+
+  <!-- SCRIPT -->
+  <script src="supabase-config.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
