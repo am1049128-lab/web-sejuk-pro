@@ -75,37 +75,82 @@ CREATE TRIGGER update_bookings_updated_at
   BEFORE UPDATE ON bookings
   FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
 
--- 5. ROW LEVEL SECURITY (RLS)
+-- 5. ROW LEVEL SECURITY (RLS) & ACCESS CONTROL
 -- ============================================================
 ALTER TABLE products ENABLE ROW LEVEL SECURITY;
 ALTER TABLE payment_methods ENABLE ROW LEVEL SECURITY;
 ALTER TABLE bookings ENABLE ROW LEVEL SECURITY;
 
--- Produk & Payment Methods: Public bisa baca (anon), tapi hanya authenticated bisa tulis
-CREATE POLICY "Products are viewable by everyone" ON products
-  FOR SELECT USING (true);
+-- Bersihkan policy lama jika ada (agar query dapat dijalankan ulang tanpa error)
+DROP POLICY IF EXISTS "Products are viewable by everyone" ON products;
+DROP POLICY IF EXISTS "Products are editable by authenticated users" ON products;
+DROP POLICY IF EXISTS "Public read products" ON products;
+DROP POLICY IF EXISTS "Admin manage products" ON products;
 
-CREATE POLICY "Products are editable by authenticated users" ON products
-  FOR ALL USING (true) WITH CHECK (true);
+DROP POLICY IF EXISTS "Payment methods are viewable by everyone" ON payment_methods;
+DROP POLICY IF EXISTS "Payment methods are editable by authenticated users" ON payment_methods;
+DROP POLICY IF EXISTS "Public read payments" ON payment_methods;
+DROP POLICY IF EXISTS "Admin manage payments" ON payment_methods;
 
-CREATE POLICY "Payment methods are viewable by everyone" ON payment_methods
-  FOR SELECT USING (true);
+DROP POLICY IF EXISTS "Anyone can create bookings" ON bookings;
+DROP POLICY IF EXISTS "Bookings are viewable by authenticated users" ON bookings;
+DROP POLICY IF EXISTS "Bookings are editable by authenticated users" ON bookings;
+DROP POLICY IF EXISTS "Bookings are deletable by authenticated users" ON bookings;
+DROP POLICY IF EXISTS "Only admin can view bookings" ON bookings;
+DROP POLICY IF EXISTS "Only admin can update bookings" ON bookings;
+DROP POLICY IF EXISTS "Only admin can delete bookings" ON bookings;
 
-CREATE POLICY "Payment methods are editable by authenticated users" ON payment_methods
-  FOR ALL USING (true) WITH CHECK (true);
+-- A. PRODUK: Publik hanya bisa membaca produk yang aktif
+CREATE POLICY "Public read products" ON products
+  FOR SELECT
+  USING (is_active = true);
 
--- Bookings: Semua bisa insert (dari website), tapi hanya authenticated bisa baca/update
+-- B. PRODUK: Hanya admin terautentikasi yang dapat menambah, mengedit, atau menghapus
+CREATE POLICY "Admin manage products" ON products
+  FOR ALL
+  TO authenticated
+  USING (auth.role() = 'authenticated')
+  WITH CHECK (auth.role() = 'authenticated');
+
+-- C. METODE PEMBAYARAN: Publik hanya bisa membaca metode aktif
+CREATE POLICY "Public read payments" ON payment_methods
+  FOR SELECT
+  USING (is_active = true);
+
+-- D. METODE PEMBAYARAN: Hanya admin terautentikasi yang dapat mengelola
+CREATE POLICY "Admin manage payments" ON payment_methods
+  FOR ALL
+  TO authenticated
+  USING (auth.role() = 'authenticated')
+  WITH CHECK (auth.role() = 'authenticated');
+
+-- E. BOOKINGS: Publik diizinkan membuat pemesanan baru (INSERT)
 CREATE POLICY "Anyone can create bookings" ON bookings
-  FOR INSERT WITH CHECK (true);
+  FOR INSERT
+  WITH CHECK (
+    (status = 'pending' OR status IS NULL)
+    AND length(trim(customer_name)) >= 2
+    AND length(trim(customer_phone)) >= 8
+  );
 
-CREATE POLICY "Bookings are viewable by authenticated users" ON bookings
-  FOR SELECT USING (true);
+-- F. BOOKINGS: HANYA admin terautentikasi yang boleh melihat data pribadi pelanggan
+CREATE POLICY "Only admin can view bookings" ON bookings
+  FOR SELECT
+  TO authenticated
+  USING (auth.role() = 'authenticated');
 
-CREATE POLICY "Bookings are editable by authenticated users" ON bookings
-  FOR UPDATE USING (true) WITH CHECK (true);
+-- G. BOOKINGS: HANYA admin terautentikasi yang boleh mengubah status booking
+CREATE POLICY "Only admin can update bookings" ON bookings
+  FOR UPDATE
+  TO authenticated
+  USING (auth.role() = 'authenticated')
+  WITH CHECK (auth.role() = 'authenticated');
 
-CREATE POLICY "Bookings are deletable by authenticated users" ON bookings
-  FOR DELETE USING (true);
+-- H. BOOKINGS: HANYA admin terautentikasi yang boleh menghapus booking
+CREATE POLICY "Only admin can delete bookings" ON bookings
+  FOR DELETE
+  TO authenticated
+  USING (auth.role() = 'authenticated');
 
 -- 6. SEED DATA: PRODUK / LAYANAN SEJUKPRO
 -- ============================================================

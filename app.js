@@ -16,6 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initFaqAccordion();
   initFloatingWidget();
   initDateDefault();
+  initSupabaseData();
 });
 
 /* ==========================================================================
@@ -119,6 +120,9 @@ function initNavbarScroll() {
    3. Interactive Hero AC Unit Simulator
    ========================================================================== */
 function initHeroAcSimulator() {
+  const sim = document.getElementById('acUnitBody');
+  if (!sim) return;
+
   const simTempDisplay = document.getElementById('simTempDisplay');
   const simTargetTemp = document.getElementById('simTargetTemp');
   const btnTempDown = document.getElementById('btnTempDown');
@@ -187,6 +191,9 @@ function initHeroAcSimulator() {
    4. BTU & PK Interactive Calculator Engine
    ========================================================================== */
 function initBtuCalculator() {
+  const calcSection = document.getElementById('btu-calculator');
+  if (!calcSection) return;
+
   // Tabs
   const tabDimensi = document.getElementById('tabDimensi');
   const tabLuas = document.getElementById('tabLuas');
@@ -489,6 +496,9 @@ window.adjustStep = function(id, delta) {
    5. Interactive Troubleshooting Diagnostic Tool
    ========================================================================== */
 function initTroubleshooter() {
+  const troubleshooter = document.getElementById('troubleshooter');
+  if (!troubleshooter) return;
+
   const pills = document.querySelectorAll('.diag-pill');
   const diagIcon = document.getElementById('diagIcon');
   const diagTitle = document.getElementById('diagTitle');
@@ -636,22 +646,24 @@ window.preselectService = function(serviceName, customNotes = '') {
   const custNotes = document.getElementById('custNotes');
   const targetSection = document.getElementById('customer-service');
 
-  if (custService) {
+  if (targetSection && custService) {
     for (let i = 0; i < custService.options.length; i++) {
       if (custService.options[i].value === serviceName) {
         custService.selectedIndex = i;
         break;
       }
     }
-  }
-
-  if (customNotes && custNotes) {
-    custNotes.value = customNotes;
-  }
-
-  if (targetSection) {
+    if (customNotes && custNotes) {
+      custNotes.value = customNotes;
+    }
     targetSection.scrollIntoView({ behavior: 'smooth' });
-    showToast(`Layanan "${serviceName}" otomatis dipilih pada form pemesanan.`);
+    showToast(`Layanan "${serviceName}" otomatis dipilih pada form.`);
+  } else {
+    // If on a different page, redirect to kontak.html with query params
+    const params = new URLSearchParams();
+    if (serviceName) params.set('service', serviceName);
+    if (customNotes) params.set('notes', customNotes);
+    window.location.href = `kontak.html?${params.toString()}`;
   }
 };
 
@@ -678,8 +690,37 @@ function initBookingForm() {
 
   if (!form) return;
 
+  // Auto-fill from URL Query Params (?service=...&notes=...)
+  const urlParams = new URLSearchParams(window.location.search);
+  const serviceParam = urlParams.get('service');
+  const notesParam = urlParams.get('notes');
+  const custService = document.getElementById('custService');
+  const custNotes = document.getElementById('custNotes');
+
+  if (serviceParam && custService) {
+    for (let i = 0; i < custService.options.length; i++) {
+      const optVal = custService.options[i].value.toLowerCase();
+      const sVal = serviceParam.toLowerCase();
+      if (optVal.includes(sVal) || sVal.includes(optVal)) {
+        custService.selectedIndex = i;
+        break;
+      }
+    }
+  }
+
+  if (notesParam && custNotes) {
+    custNotes.value = notesParam;
+  }
+
   form.addEventListener('submit', (e) => {
     e.preventDefault();
+
+    // Anti-bot honeypot check
+    const honeypot = document.getElementById('custHoneypot');
+    if (honeypot && honeypot.value.trim() !== '') {
+      console.warn('[Security] Bot submission blocked by honeypot.');
+      return;
+    }
 
     let isValid = true;
     const nameInput = document.getElementById('custName');
@@ -712,6 +753,13 @@ function initBookingForm() {
       return;
     }
 
+    // Phone format sanity check
+    const cleanPhone = phoneInput.value.trim().replace(/[^0-9+]/g, '');
+    if (cleanPhone.length < 8 || cleanPhone.length > 16) {
+      showToast('Nomor WhatsApp tidak valid. Masukkan nomor yang benar (misal: 08123456789).');
+      return;
+    }
+
     // Build payload
     const name = nameInput.value.trim();
     const phone = phoneInput.value.trim();
@@ -739,12 +787,38 @@ function initBookingForm() {
     const encodedWa = encodeURIComponent(waText);
     const waUrl = `https://wa.me/6281226818063?text=${encodedWa}`;
 
+    // XSS-Safe DOM rendering
     if (modalSummary) {
-      modalSummary.innerHTML = `Terima kasih, <strong>${name}</strong>!<br>Pemesanan <strong>${service} (${unitCount})</strong> untuk tanggal <strong>${date}</strong> (${slot}) telah tercatat. Klik tombol hijau di bawah untuk langsung membuka chat WhatsApp dengan Customer Service kami.`;
+      modalSummary.innerHTML = `Terima kasih, <strong>${escapeHTML(name)}</strong>!<br>Pemesanan <strong>${escapeHTML(service)} (${escapeHTML(unitCount)})</strong> untuk tanggal <strong>${escapeHTML(date)}</strong> (${escapeHTML(slot)}) telah tercatat. Klik tombol hijau di bawah untuk langsung membuka chat WhatsApp dengan Customer Service kami.`;
     }
 
     if (modalWaActionBtn) {
       modalWaActionBtn.href = waUrl;
+    }
+
+    // Save booking to Supabase
+    if (typeof supabase !== 'undefined') {
+      const bookingData = {
+        customer_name: name,
+        customer_phone: phone,
+        customer_address: address,
+        service_type: service,
+        unit_count: unitCount,
+        ac_brand: brand !== 'Belum diisi' ? brand : null,
+        visit_date: date,
+        time_slot: slot,
+        payment_method: payment,
+        notes: notes,
+        status: 'pending'
+      };
+      supabase.insert('bookings', bookingData)
+        .then(() => {
+          console.log('[Supabase] Booking saved successfully');
+          showToast('Data booking berhasil tersimpan di Supabase!');
+        })
+        .catch(err => {
+          console.warn('[Supabase] Failed to save booking:', err);
+        });
     }
 
     if (modal) {
@@ -834,8 +908,18 @@ window.openWaWithText = function(text) {
 };
 
 /* ==========================================================================
-   9. Toast Notification Utility
+   9. Utilities (Security Sanitizer & Toast Notification)
    ========================================================================== */
+function escapeHTML(str) {
+  if (!str) return '';
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
+}
+
 function showToast(message) {
   const container = document.getElementById('toastContainer');
   if (!container) return;
@@ -854,4 +938,112 @@ function showToast(message) {
       toast.remove();
     }, 400);
   }, 3500);
+}
+
+/* ==========================================================================
+   10. Supabase Dynamic Data (Products & Payment Methods)
+   ========================================================================== */
+
+function getServiceIconSvg(iconType) {
+  switch (iconType) {
+    case 'snowflake':
+      return `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M2 12h20M4.93 4.93l14.14 14.14M4.93 19.07l14.14-14.14"/><circle cx="12" cy="12" r="3"/></svg>`;
+    case 'gauge':
+      return `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="M16 12l-4-4-4 4M12 8v8"></path></svg>`;
+    case 'wrench':
+      return `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path></svg>`;
+    case 'bolt':
+      return `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>`;
+    case 'briefcase':
+      return `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>`;
+    case 'droplet':
+    default:
+      return `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"></path></svg>`;
+  }
+}
+
+async function initSupabaseData() {
+  if (typeof supabase === 'undefined') return;
+
+  // 1. Fetch & render products
+  try {
+    const products = await supabase.select('products', 'select=*&is_active=eq.true&order=sort_order.asc');
+    if (products && products.length > 0) {
+      renderDynamicProducts(products);
+      populateServiceSelect(products);
+    }
+  } catch (err) {
+    console.warn('[Supabase] Gunakan fallback produk statis:', err);
+  }
+
+  // 2. Fetch & render payment methods
+  try {
+    const paymentMethods = await supabase.select('payment_methods', 'select=*&is_active=eq.true&order=sort_order.asc');
+    if (paymentMethods && paymentMethods.length > 0) {
+      populatePaymentSelect(paymentMethods);
+    }
+  } catch (err) {
+    console.warn('[Supabase] Gunakan fallback payment statis:', err);
+  }
+}
+
+function renderDynamicProducts(products) {
+  const container = document.getElementById('servicesGrid');
+  if (!container) return;
+
+  container.innerHTML = products.map(p => {
+    const isFeatured = Boolean(p.is_featured);
+    const safeBadge = p.badge_text ? escapeHTML(p.badge_text) : '';
+    const badgeHtml = safeBadge
+      ? `<div class="service-badge ${p.badge_type === 'gold' ? 'gold-badge' : ''}">${safeBadge}</div>`
+      : '';
+    const featuresHtml = (p.features || []).map(f => `<span>✓ ${escapeHTML(f)}</span>`).join('');
+    const ctaVal = p.cta_service_value || p.name;
+    const btnClass = isFeatured ? 'btn btn-primary full-width' : 'btn btn-outline full-width';
+
+    return `
+      <div class="service-card glass-card ${isFeatured ? 'featured-service' : ''}">
+        ${badgeHtml}
+        <div class="service-icon">
+          ${getServiceIconSvg(p.icon_type)}
+        </div>
+        <h3>${escapeHTML(p.name)}</h3>
+        <p class="service-desc">${escapeHTML(p.description || '')}</p>
+        <div class="service-features">
+          ${featuresHtml}
+        </div>
+        <div class="price-box">
+          <span class="price-from">${escapeHTML(p.price_label || 'Mulai dari')}</span>
+          <span class="price-amount">${escapeHTML(p.price_amount)}</span>
+          <span class="price-unit">${escapeHTML(p.price_unit || '')}</span>
+        </div>
+        <a href="kontak.html?service=${encodeURIComponent(ctaVal)}" class="${btnClass}">${escapeHTML(p.cta_text || 'Pesan Sekarang')}</a>
+      </div>
+    `;
+  }).join('');
+}
+
+function populateServiceSelect(products) {
+  const select = document.getElementById('custService');
+  if (!select) return;
+
+  const currentValue = select.value;
+  select.innerHTML = '<option value="" disabled selected>Pilih Jenis Servis...</option>' +
+    products.map(p => {
+      const val = p.cta_service_value || p.name;
+      const isSelected = currentValue === val ? 'selected' : '';
+      return `<option value="${escapeHTML(val)}" ${isSelected}>${escapeHTML(p.name)} (${escapeHTML(p.price_amount)})</option>`;
+    }).join('');
+}
+
+function populatePaymentSelect(methods) {
+  const select = document.getElementById('custPayment');
+  if (!select) return;
+
+  const currentValue = select.value;
+  select.innerHTML = methods.map(m => {
+    const isSelected = currentValue === m.name ? 'selected' : '';
+    const desc = m.description ? ` (${escapeHTML(m.description)})` : '';
+    return `<option value="${escapeHTML(m.name)}" ${isSelected}>${escapeHTML(m.name)}${desc}</option>`;
+  }).join('');
 }
