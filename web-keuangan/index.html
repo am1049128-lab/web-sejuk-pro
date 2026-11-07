@@ -1,0 +1,828 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KasKita - Manajemen & Transparansi Keuangan Kas Kelas</title>
+  <meta name="description" content="Aplikasi web manajemen keuangan dan transparansi kas kelas dengan matrix pembayaran siswa, grafik keuangan, bukti nota belanja, dan reminder WhatsApp.">
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Font Awesome 6 Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <!-- Chart.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <!-- Canvas Confetti CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+  <!-- QRCode.js CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+  <!-- Custom Stylesheet -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="text-slate-800 antialiased min-h-screen flex flex-col">
+
+  <!-- Toast Notification Container -->
+  <div id="toastContainer" class="fixed bottom-6 right-6 z-50 flex flex-col space-y-2 pointer-events-none"></div>
+
+  <!-- PRINT ONLY HEADER (Muncul hanya saat cetak laporan fisik) -->
+  <div class="print-only p-6 text-center border-b-2 border-black mb-6">
+    <h2 class="text-xl font-bold uppercase tracking-wider school-title">SMA NEGERI 1 PRESTASI</h2>
+    <h1 class="text-2xl font-black uppercase tracking-wide mt-1">LAPORAN PERTANGGUNGJAWABAN KAS KELAS <span class="class-title">XII MIPA 2</span></h1>
+    <p class="text-sm text-gray-600 mt-1">Periode: <span class="month-title">Oktober 2026</span> • Dikeluarkan secara resmi untuk arsip Wali Kelas & Siswa</p>
+  </div>
+
+  <!-- ================= TOP NAVBAR ================= -->
+  <header class="glass-card sticky top-0 z-40 border-b border-slate-200/80 shadow-sm no-print">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-16 sm:h-20">
+        
+        <!-- Brand & Class Info -->
+        <div class="flex items-center space-x-3">
+          <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl gradient-emerald flex items-center justify-center text-white shadow-md shadow-emerald-500/20">
+            <i class="fa-solid fa-vault text-lg sm:text-xl"></i>
+          </div>
+          <div>
+            <div class="flex items-center space-x-2">
+              <h1 class="brand-font font-black text-lg sm:text-2xl text-slate-900 tracking-tight">KasKita</h1>
+              <span class="px-2 py-0.5 rounded-full text-xs font-bold bg-emerald-100 text-emerald-800 class-title">XII MIPA 2</span>
+            </div>
+            <p class="text-xs text-slate-500 hidden sm:block">Transparansi Kas Kelas • <span class="school-title">SMA Negeri 1</span></p>
+          </div>
+        </div>
+
+        <!-- Role Badges & Actions -->
+        <div class="flex items-center space-x-2 sm:space-x-3">
+          
+          <!-- Mode Read Only (Siswa) Notice -->
+          <div id="studentModeNotice" class="hidden sm:flex items-center space-x-2 px-3 py-1.5 rounded-full bg-slate-100 text-slate-700 text-xs font-semibold border border-slate-200">
+            <span class="w-2 h-2 rounded-full bg-slate-400"></span>
+            <span>Mode Siswa (Read-Only)</span>
+          </div>
+
+          <!-- Mode Bendahara (Admin) Active Badge -->
+          <div id="adminModeNotice" class="hidden flex items-center space-x-2 px-3 py-1.5 rounded-full bg-emerald-100 text-emerald-800 text-xs font-bold border border-emerald-300">
+            <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 pulse-active"></span>
+            <span>Bendahara Aktif</span>
+          </div>
+
+          <!-- Button QR Papan Tulis -->
+          <button onclick="App.openQRModal()" title="Tampilkan QR Code Papan Tulis" class="p-2 sm:px-3 sm:py-2 rounded-xl bg-white hover:bg-slate-100 text-slate-700 border border-slate-200 text-xs font-semibold transition-all shadow-sm flex items-center space-x-1.5">
+            <i class="fa-solid fa-qrcode text-emerald-600 sm:text-sm"></i>
+            <span class="hidden md:inline">QR Mading</span>
+          </button>
+
+          <!-- Button Ekspor Laporan -->
+          <div class="relative inline-block text-left">
+            <button onclick="App.exportToCSV()" title="Unduh Laporan Format Excel/CSV" class="p-2 sm:px-3 sm:py-2 rounded-xl bg-white hover:bg-slate-100 text-slate-700 border border-slate-200 text-xs font-semibold transition-all shadow-sm flex items-center space-x-1.5">
+              <i class="fa-solid fa-file-excel text-emerald-600 sm:text-sm"></i>
+              <span class="hidden md:inline">Ekspor CSV</span>
+            </button>
+          </div>
+
+          <!-- Button Cetak Laporan -->
+          <button onclick="App.printOfficialReport()" title="Cetak Format Laporan Resmi" class="p-2 sm:px-3 sm:py-2 rounded-xl bg-white hover:bg-slate-100 text-slate-700 border border-slate-200 text-xs font-semibold transition-all shadow-sm flex items-center space-x-1.5">
+            <i class="fa-solid fa-print text-indigo-600 sm:text-sm"></i>
+            <span class="hidden md:inline">Cetak PDF</span>
+          </button>
+
+          <!-- Login Bendahara Modal Trigger -->
+          <button id="btnLoginModal" class="px-3.5 py-2 rounded-xl gradient-emerald text-white text-xs sm:text-sm font-bold shadow-md shadow-emerald-600/20 hover:opacity-95 transition-all flex items-center space-x-1.5">
+            <i class="fa-solid fa-key"></i>
+            <span>Login Bendahara</span>
+          </button>
+
+          <!-- Logout Button (Hidden by default) -->
+          <button id="btnLogout" class="hidden px-3.5 py-2 rounded-xl bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 text-xs sm:text-sm font-bold transition-all flex items-center space-x-1.5">
+            <i class="fa-solid fa-arrow-right-from-bracket"></i>
+            <span>Keluar</span>
+          </button>
+
+        </div>
+      </div>
+
+      <!-- Navigation Tabs -->
+      <div class="flex space-x-2 border-t border-slate-200/60 pt-1 -mb-px">
+        <button data-tab-target="dashboard" class="px-4 py-2.5 text-xs sm:text-sm font-bold border-b-2 border-emerald-600 text-emerald-700 bg-emerald-50 rounded-t-lg transition-all flex items-center space-x-2">
+          <i class="fa-solid fa-chart-pie"></i>
+          <span>Ringkasan (Overview)</span>
+        </button>
+
+        <button data-tab-target="matrix" class="px-4 py-2.5 text-xs sm:text-sm font-bold border-b-2 border-transparent text-slate-600 hover:text-emerald-700 rounded-t-lg transition-all flex items-center space-x-2">
+          <i class="fa-solid fa-table-cells"></i>
+          <span>Status Bayar Siswa</span>
+        </button>
+
+        <button data-tab-target="expenses" class="px-4 py-2.5 text-xs sm:text-sm font-bold border-b-2 border-transparent text-slate-600 hover:text-emerald-700 rounded-t-lg transition-all flex items-center space-x-2">
+          <i class="fa-solid fa-receipt"></i>
+          <span>Pengeluaran &amp; Nota</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ================= MAIN CONTENT ================= -->
+  <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6">
+
+    <!-- ================= TAB 1: DASHBOARD RINGKASAN ================= -->
+    <div id="tab-dashboard" class="tab-content space-y-6">
+
+      <!-- Hero Metrics Grid -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        
+        <!-- Saldo Kas Saat Ini -->
+        <div class="glass-card glass-card-hover p-5 rounded-2xl border-l-4 border-l-emerald-500 relative overflow-hidden">
+          <div class="flex items-center justify-between">
+            <div>
+              <p class="text-xs font-bold text-slate-400 uppercase tracking-wider">Total Saldo Kas</p>
+              <h3 id="totalSaldo" class="text-2xl sm:text-3xl font-black text-slate-900 mt-1">Rp 0</h3>
+            </div>
+            <div class="w-12 h-12 rounded-2xl bg-emerald-100 text-emerald-600 flex items-center justify-center text-xl shadow-inner">
+              <i class="fa-solid fa-wallet"></i>
+            </div>
+          </div>
+          <div class="mt-3 flex items-center text-xs font-semibold text-emerald-700 space-x-1.5">
+            <span class="inline-block w-2 h-2 rounded-full bg-emerald-500"></span>
+            <span>Real-time per <span class="month-title">Bulan Ini</span></span>
+          </div>
+        </div>
+
+        <!-- Total Pemasukan -->
+        <div class="glass-card glass-card-hover p-5 rounded-2xl border-l-4 border-l-indigo-500 relative overflow-hidden">
+          <div class="flex items-center justify-between">
+            <div>
+              <p class="text-xs font-bold text-slate-400 uppercase tracking-wider">Total Pemasukan</p>
+              <h3 id="totalPemasukan" class="text-2xl sm:text-3xl font-black text-indigo-900 mt-1">Rp 0</h3>
+            </div>
+            <div class="w-12 h-12 rounded-2xl bg-indigo-100 text-indigo-600 flex items-center justify-center text-xl shadow-inner">
+              <i class="fa-solid fa-arrow-trend-up"></i>
+            </div>
+          </div>
+          <div class="mt-3 text-xs text-slate-500">
+            Tarif: <span class="cash-rate font-bold text-indigo-600">Rp 5.000/minggu</span>
+          </div>
+        </div>
+
+        <!-- Total Pengeluaran -->
+        <div class="glass-card glass-card-hover p-5 rounded-2xl border-l-4 border-l-rose-500 relative overflow-hidden">
+          <div class="flex items-center justify-between">
+            <div>
+              <p class="text-xs font-bold text-slate-400 uppercase tracking-wider">Total Pengeluaran</p>
+              <h3 id="totalPengeluaran" class="text-2xl sm:text-3xl font-black text-rose-900 mt-1">Rp 0</h3>
+            </div>
+            <div class="w-12 h-12 rounded-2xl bg-rose-100 text-rose-600 flex items-center justify-center text-xl shadow-inner">
+              <i class="fa-solid fa-arrow-trend-down"></i>
+            </div>
+          </div>
+          <div class="mt-3 text-xs text-slate-500">
+            Transparansi belanja dengan bukti nota
+          </div>
+        </div>
+
+        <!-- Kepatuhan Bayar Siswa -->
+        <div class="glass-card glass-card-hover p-5 rounded-2xl border-l-4 border-l-amber-500 relative overflow-hidden">
+          <div class="flex items-center justify-between">
+            <div>
+              <p class="text-xs font-bold text-slate-400 uppercase tracking-wider">Kepatuhan Bayar</p>
+              <h3 id="kepatuhanRate" class="text-2xl sm:text-3xl font-black text-amber-900 mt-1">0%</h3>
+            </div>
+            <div class="w-12 h-12 rounded-2xl bg-amber-100 text-amber-600 flex items-center justify-center text-xl shadow-inner">
+              <i class="fa-solid fa-users-viewfinder"></i>
+            </div>
+          </div>
+          <div class="mt-3 text-xs text-slate-500">
+            Total Siswa Terdaftar: <span id="totalStudentCount" class="font-bold text-amber-700">30 Siswa</span>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Financial Charts Row -->
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        
+        <!-- Cashflow Bar Chart -->
+        <div class="glass-card p-5 sm:p-6 rounded-2xl lg:col-span-2">
+          <div class="flex items-center justify-between mb-4">
+            <div>
+              <h3 class="font-bold text-base sm:text-lg text-slate-900">Arus Kas Mingguan</h3>
+              <p class="text-xs text-slate-500">Perbandingan pemasukan vs pengeluaran per minggu</p>
+            </div>
+            <span class="px-2.5 py-1 rounded-full text-xs font-bold bg-slate-100 text-slate-700 month-title">Oktober 2026</span>
+          </div>
+          <div class="h-64 sm:h-72 w-full">
+            <canvas id="cashflowChart"></canvas>
+          </div>
+        </div>
+
+        <!-- Category Doughnut Chart -->
+        <div class="glass-card p-5 sm:p-6 rounded-2xl">
+          <div class="flex items-center justify-between mb-4">
+            <div>
+              <h3 class="font-bold text-base sm:text-lg text-slate-900">Alokasi Pengeluaran</h3>
+              <p class="text-xs text-slate-500">Persentase pengeluaran per pos belanja</p>
+            </div>
+          </div>
+          <div class="h-64 sm:h-72 w-full">
+            <canvas id="categoryChart"></canvas>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Quick Actions Banner & Recent Expenses -->
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        
+        <!-- Info Rekening & Pembayaran Kas -->
+        <div class="glass-card p-5 sm:p-6 rounded-2xl">
+          <div class="flex items-center space-x-3 mb-4">
+            <div class="w-10 h-10 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center text-lg">
+              <i class="fa-solid fa-credit-card"></i>
+            </div>
+            <div>
+              <h4 class="font-bold text-slate-900 text-sm">Metode Pembayaran Kas</h4>
+              <p class="text-xs text-slate-500">Kirim uang kas tanpa ribet uang pas</p>
+            </div>
+          </div>
+          
+          <div class="p-3.5 rounded-xl bg-indigo-50/60 border border-indigo-100 space-y-2 text-xs">
+            <div class="flex justify-between text-slate-600">
+              <span>Bendahara Kelas:</span>
+              <span class="font-bold text-slate-800" id="infoTreasurerName">Zahra &amp; Farhan</span>
+            </div>
+            <div class="flex justify-between text-slate-600">
+              <span>Tarif Rutin:</span>
+              <span class="font-bold text-emerald-700 cash-rate">Rp 5.000 / minggu</span>
+            </div>
+            <div class="pt-2 border-t border-indigo-100">
+              <p class="font-semibold text-slate-700 mb-1">Transfer Bank / E-Wallet:</p>
+              <div id="infoPaymentDetail" class="bg-white p-2.5 rounded-lg border border-indigo-100 text-slate-800 font-mono text-xs select-all">
+                <span>BCA: 1234-5678-90 a.n Zahra Putri</span><br><span>Dana/GoPay: 0812-3456-7890</span>
+              </div>
+            </div>
+
+          </div>
+
+          <div class="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between text-xs">
+            <span class="text-slate-500">Butuh info bendahara?</span>
+            <button onclick="App.openQRModal()" class="text-emerald-700 hover:underline font-bold flex items-center space-x-1">
+              <i class="fa-solid fa-qrcode"></i>
+              <span>Cetak Kartu QR</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- 5 Transaksi Pengeluaran Terakhir -->
+        <div class="glass-card p-5 sm:p-6 rounded-2xl lg:col-span-2">
+          <div class="flex items-center justify-between mb-4">
+            <div>
+              <h4 class="font-bold text-slate-900 text-sm sm:text-base">Pengeluaran Kas Terakhir</h4>
+              <p class="text-xs text-slate-500">Transparansi alokasi kas kelas untuk kebutuhan bersama</p>
+            </div>
+            <button onclick="App.switchTab('expenses')" class="text-xs text-emerald-600 hover:text-emerald-800 font-bold flex items-center space-x-1">
+              <span>Lihat Semua</span>
+              <i class="fa-solid fa-arrow-right"></i>
+            </button>
+          </div>
+
+          <div id="recentTransactionsList" class="space-y-2.5">
+            <!-- Dynamically populated -->
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- ================= TAB 2: MATRIX STATUS BAYAR SISWA ================= -->
+    <div id="tab-matrix" class="tab-content hidden space-y-6">
+
+      <!-- Header & Filter Bar -->
+      <div class="glass-card p-4 sm:p-5 rounded-2xl flex flex-col md:flex-row md:items-center justify-between gap-4">
+        
+        <div>
+          <h2 class="text-lg sm:text-xl font-bold text-slate-900">Payment Matrix: Status Kas Siswa</h2>
+          <p class="text-xs text-slate-500">Pantau kepatuhan bayar per minggu. Hijau = Lunas, Merah = Menunggak.</p>
+        </div>
+
+        <!-- Filter & Search Controls -->
+        <div class="flex flex-wrap items-center gap-2.5">
+          
+          <!-- Search Input -->
+          <div class="relative flex-1 sm:flex-initial">
+            <i class="fa-solid fa-magnifying-glass absolute left-3 top-2.5 text-slate-400 text-xs"></i>
+            <input type="text" id="searchStudent" placeholder="Cari nama / no absen..." 
+                   class="w-full sm:w-48 pl-8 pr-3 py-1.5 text-xs rounded-xl bg-white border border-slate-200 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500">
+          </div>
+
+          <!-- Status Filter -->
+          <select id="filterStatus" class="px-3 py-1.5 text-xs rounded-xl bg-white border border-slate-200 font-medium text-slate-700 focus:outline-none focus:ring-2 focus:ring-emerald-500/20">
+            <option value="all">Semua Status</option>
+            <option value="owing">Khusus Menunggak</option>
+            <option value="paid">Khusus Lunas</option>
+          </select>
+
+          <!-- Admin Only: Tambah Siswa Button -->
+          <button onclick="document.getElementById('modalAddStudent').classList.remove('hidden')" 
+                  class="admin-only hidden px-3 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold transition-all shadow-sm flex items-center space-x-1">
+            <i class="fa-solid fa-user-plus"></i>
+            <span>Tambah Siswa</span>
+          </button>
+
+          <!-- Admin Only: Pengaturan Kas Button -->
+          <button onclick="document.getElementById('modalSettings').classList.remove('hidden')" 
+                  class="admin-only hidden px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-900 text-white text-xs font-bold transition-all shadow-sm flex items-center space-x-1">
+            <i class="fa-solid fa-gear"></i>
+            <span>Pengaturan</span>
+          </button>
+        </div>
+
+      </div>
+
+      <!-- Quick Bulk Actions for Bendahara -->
+      <div class="admin-only hidden glass-card p-3.5 rounded-xl flex flex-wrap items-center justify-between gap-3 bg-emerald-50/70 border border-emerald-200">
+        <div class="flex items-center space-x-2 text-xs text-emerald-900 font-bold">
+          <i class="fa-solid fa-wand-magic-sparkles text-emerald-600"></i>
+          <span>Aksi Cepat Bendahara: Tandai Lunas Seluruh Kelas:</span>
+        </div>
+        <div class="flex flex-wrap items-center gap-1.5">
+          <button onclick="App.markAllWeekPaid('w1')" class="px-2.5 py-1 text-xs font-bold bg-white hover:bg-emerald-100 text-emerald-800 rounded-lg border border-emerald-300 transition-colors">
+            Semua Minggu 1
+          </button>
+          <button onclick="App.markAllWeekPaid('w2')" class="px-2.5 py-1 text-xs font-bold bg-white hover:bg-emerald-100 text-emerald-800 rounded-lg border border-emerald-300 transition-colors">
+            Semua Minggu 2
+          </button>
+          <button onclick="App.markAllWeekPaid('w3')" class="px-2.5 py-1 text-xs font-bold bg-white hover:bg-emerald-100 text-emerald-800 rounded-lg border border-emerald-300 transition-colors">
+            Semua Minggu 3
+          </button>
+          <button onclick="App.markAllWeekPaid('w4')" class="px-2.5 py-1 text-xs font-bold bg-white hover:bg-emerald-100 text-emerald-800 rounded-lg border border-emerald-300 transition-colors">
+            Semua Minggu 4
+          </button>
+        </div>
+      </div>
+
+      <!-- Matrix Table Container -->
+      <div class="glass-card rounded-2xl overflow-hidden border border-slate-200/80 shadow-sm">
+        <div class="overflow-x-auto">
+          <table class="w-full text-left border-collapse table-matrix">
+            <thead>
+              <tr class="border-b border-slate-200 text-slate-600 text-xs uppercase font-extrabold tracking-wider">
+                <th class="px-4 py-3.5 text-center w-12">No</th>
+                <th class="px-4 py-3.5 min-w-[180px] sticky-col">Nama Siswa</th>
+                <th class="px-3 py-3.5 text-center w-24">Minggu 1</th>
+                <th class="px-3 py-3.5 text-center w-24">Minggu 2</th>
+                <th class="px-3 py-3.5 text-center w-24">Minggu 3</th>
+                <th class="px-3 py-3.5 text-center w-24">Minggu 4</th>
+                <th class="px-4 py-3.5 text-center min-w-[140px]">Status Bulan Ini</th>
+                <th class="px-4 py-3.5 text-center w-36">Aksi &amp; Reminder</th>
+              </tr>
+            </thead>
+            <tbody id="matrixTableBody" class="divide-y divide-slate-100">
+              <!-- Dynamically populated -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ================= TAB 3: PENGELUARAN & BUKTI NOTA ================= -->
+    <div id="tab-expenses" class="tab-content hidden space-y-6">
+
+      <!-- Action bar -->
+      <div class="glass-card p-4 sm:p-5 rounded-2xl flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div>
+          <h2 class="text-lg sm:text-xl font-bold text-slate-900">Pencatatan Pengeluaran &amp; Bukti Nota</h2>
+          <p class="text-xs text-slate-500">Setiap rupiah yang dikeluarkan tercatat rapi beserta foto nota resi fisik.</p>
+        </div>
+
+        <div class="flex items-center space-x-2">
+          <!-- Button Tambah Pengeluaran (Admin Only) -->
+          <button onclick="document.getElementById('modalAddExpense').classList.remove('hidden')" 
+                  class="admin-only hidden px-4 py-2 rounded-xl gradient-emerald text-white text-xs sm:text-sm font-bold shadow-md shadow-emerald-600/20 hover:opacity-95 transition-all flex items-center space-x-1.5">
+            <i class="fa-solid fa-plus"></i>
+            <span>Catat Pengeluaran Baru</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Expenses Cards List -->
+      <div id="expensesListContainer" class="space-y-4">
+        <!-- Dynamically populated -->
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- ================= FOOTER ================= -->
+  <footer class="mt-auto border-t border-slate-200 bg-white/70 backdrop-blur-sm py-6 no-print">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center sm:flex sm:justify-between sm:items-center text-xs text-slate-500">
+      <p>© 2026 KasKita • Sistem Transparansi Kas Kelas <span class="class-title font-bold text-slate-700">XII MIPA 2</span></p>
+      <div class="mt-2 sm:mt-0 flex justify-center space-x-4">
+        <span>Dibuat dengan ❤️ untuk kemudahan Bendahara &amp; Siswa</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ================= MODALS ================= -->
+
+  <!-- 1. Modal Login Bendahara -->
+  <div id="modalLogin" class="modal modal-backdrop fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-sm w-full p-6 sm:p-8 shadow-2xl border border-slate-100 text-center animate-in fade-in zoom-in duration-200">
+      
+      <div class="w-14 h-14 rounded-2xl bg-emerald-100 text-emerald-700 mx-auto flex items-center justify-center text-2xl mb-4">
+        <i class="fa-solid fa-lock"></i>
+      </div>
+      
+      <h3 class="font-extrabold text-xl text-slate-900">Autentikasi Bendahara</h3>
+      <p class="text-xs text-slate-500 mt-1 mb-6">Masukkan PIN keamanan bendahara untuk mengakses hak ubah kas kelas.</p>
+
+      <form onsubmit="event.preventDefault(); App.verifyPin();" class="space-y-4 text-left">
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1">PIN Bendahara</label>
+          <input type="password" id="adminPinInput" maxlength="10" placeholder="Ketik PIN..." 
+                 class="w-full px-4 py-3 text-center tracking-widest text-lg font-mono rounded-xl bg-slate-50 border border-slate-200 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500">
+          <p id="loginError" class="text-xs text-rose-600 font-semibold mt-1 hidden"></p>
+        </div>
+
+        <div class="p-2.5 rounded-xl bg-emerald-50 text-emerald-800 text-xs border border-emerald-200 text-center">
+          <i class="fa-solid fa-circle-info mr-1"></i>PIN Default Pengujian: <strong>1234</strong>
+        </div>
+
+        <div class="flex items-center space-x-3 pt-2">
+          <button type="button" onclick="document.getElementById('modalLogin').classList.add('hidden')" 
+                  class="flex-1 py-2.5 text-xs font-bold text-slate-600 hover:bg-slate-100 rounded-xl transition-colors">
+            Batal
+          </button>
+          <button type="submit" 
+                  class="flex-1 py-2.5 text-xs font-bold gradient-emerald text-white rounded-xl shadow-md hover:opacity-95 transition-all">
+            Masuk Bendahara
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- 2. Modal Reminder WhatsApp -->
+  <div id="modalWhatsApp" class="modal modal-backdrop fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-lg w-full p-6 shadow-2xl border border-slate-100 animate-in fade-in zoom-in duration-200">
+      
+      <div class="flex items-center space-x-3 mb-4">
+        <div class="w-10 h-10 rounded-xl bg-emerald-100 text-emerald-600 flex items-center justify-center text-xl">
+          <i class="fa-brands fa-whatsapp"></i>
+        </div>
+        <div>
+          <h3 class="font-bold text-lg text-slate-900">Ingatkan Kas via WhatsApp</h3>
+          <p class="text-xs text-slate-500">Kirim pesan sopan penagihan kas langsung ke nomor siswa</p>
+        </div>
+      </div>
+
+      <div class="space-y-4 text-xs">
+        <div>
+          <label class="block font-bold text-slate-700 mb-1">Nama Siswa Penerima</label>
+          <p id="waRecipient" class="font-bold text-sm text-slate-900"></p>
+        </div>
+
+        <div>
+          <label class="block font-bold text-slate-700 mb-1">Nomor WhatsApp Siswa</label>
+          <input type="text" id="waPhoneInput" placeholder="Contoh: 081234567890" 
+                 class="w-full px-3 py-2 rounded-xl bg-slate-50 border border-slate-200 focus:outline-none focus:ring-2 focus:ring-emerald-500">
+          <span class="text-[11px] text-slate-400 mt-0.5 block">Format: 08xx atau 628xx</span>
+        </div>
+
+        <div>
+          <label class="block font-bold text-slate-700 mb-1">Draf Pesan Tagihan (Dapat Diedit)</label>
+          <textarea id="waMessagePreview" rows="6" 
+                    class="w-full px-3 py-2.5 rounded-xl bg-slate-50 border border-slate-200 font-sans focus:outline-none focus:ring-2 focus:ring-emerald-500 leading-relaxed"></textarea>
+        </div>
+      </div>
+
+      <div class="flex items-center justify-end space-x-2 mt-6 pt-3 border-t border-slate-100">
+        <button type="button" onclick="document.getElementById('modalWhatsApp').classList.add('hidden')" 
+                class="px-4 py-2 text-xs font-bold text-slate-600 hover:bg-slate-100 rounded-xl transition-colors">
+          Batal
+        </button>
+        <button id="btnSendWA" 
+                class="px-5 py-2 text-xs font-bold bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl shadow-md transition-all flex items-center space-x-1.5">
+          <i class="fa-brands fa-whatsapp text-sm"></i>
+          <span>Buka &amp; Kirim WhatsApp</span>
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- 3. Modal Catat Pengeluaran Baru -->
+  <div id="modalAddExpense" class="modal modal-backdrop fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-lg w-full p-6 shadow-2xl border border-slate-100 max-h-[90vh] overflow-y-auto animate-in fade-in zoom-in duration-200">
+      
+      <div class="flex items-center justify-between pb-3 border-b border-slate-100 mb-4">
+        <div class="flex items-center space-x-2.5">
+          <div class="w-9 h-9 rounded-xl bg-rose-100 text-rose-600 flex items-center justify-center">
+            <i class="fa-solid fa-receipt"></i>
+          </div>
+          <h3 class="font-bold text-base text-slate-900">Catat Pengeluaran Kas Baru</h3>
+        </div>
+        <button onclick="document.getElementById('modalAddExpense').classList.add('hidden')" class="text-slate-400 hover:text-slate-600">
+          <i class="fa-solid fa-xmark text-lg"></i>
+        </button>
+      </div>
+
+      <form id="formExpense" class="space-y-4 text-xs">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">Tanggal Transaksi</label>
+            <input type="date" id="expenseDate" required 
+                   class="w-full px-3 py-2 rounded-xl bg-slate-50 border border-slate-200 focus:outline-none focus:ring-2 focus:ring-emerald-500">
+          </div>
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">Kategori Pengeluaran</label>
+            <select id="expenseCategory" required 
+                    class="w-full px-3 py-2 rounded-xl bg-slate-50 border border-slate-200 focus:outline-none focus:ring-2 focus:ring-emerald-500">
+              <option value="Peralatan Kelas">Peralatan Kelas (Spidol, dll)</option>
+              <option value="Kebersihan">Kebersihan (Sapu, Pel, Sabun)</option>
+              <option value="Fotokopi & Modul">Fotokopi &amp; Modul</option>
+              <option value="Konsumsi">Konsumsi Rapat / Acara</option>
+              <option value="Sosial & Duka">Sosial &amp; Donasi Menjenguk</option>
+              <option value="Event & Lomba">Event &amp; Lomba Classmeeting</option>
+              <option value="Lain-lain">Lain-lain</option>
+            </select>
+          </div>
+        </div>
+
+        <div>
+          <label class="block font-bold text-slate-700 mb-1">Nama Keperluan / Barang</label>
+          <input type="text" id="expenseTitle" required placeholder="Contoh: Beli 3 Spidol Whiteboard & Penghapus" 
+                 class="w-full px-3 py-2 rounded-xl bg-slate-50 border border-slate-200 focus:outline-none focus:ring-2 focus:ring-emerald-500">
+        </div>
+
+        <div>
+          <label class="block font-bold text-slate-700 mb-1">Nominal Biaya (Rp)</label>
+          <input type="number" id="expenseAmount" required min="1000" step="500" placeholder="Contoh: 35000" 
+                 class="w-full px-3 py-2 rounded-xl bg-slate-50 border border-slate-200 font-bold text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500">
+        </div>
+
+        <div>
+          <label class="block font-bold text-slate-700 mb-1">Keterangan / Rincian Tambahan (Opsional)</label>
+          <textarea id="expenseDesc" rows="2" placeholder="Catatan toko tempat beli, rincian barang..." 
+                    class="w-full px-3 py-2 rounded-xl bg-slate-50 border border-slate-200 focus:outline-none focus:ring-2 focus:ring-emerald-500"></textarea>
+        </div>
+
+        <div>
+          <label class="block font-bold text-slate-700 mb-1">Upload Bukti Nota / Resi Belanja (Foto Fisik)</label>
+          <input type="file" id="expenseReceipt" accept="image/*" capture="environment" 
+                 class="w-full text-xs text-slate-500 file:mr-3 file:py-1.5 file:px-3 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-emerald-50 file:text-emerald-700 hover:file:bg-emerald-100">
+          <p class="text-[11px] text-slate-400 mt-1">Mendukung format JPG, PNG, atau jepret langsung via kamera HP.</p>
+          
+          <div id="receiptPreviewBox" class="mt-2 hidden">
+            <p class="font-bold text-slate-600 mb-1">Preview Foto Nota:</p>
+            <div class="h-36 rounded-xl border border-slate-200 overflow-hidden bg-slate-100 flex items-center justify-center">
+              <img id="receiptPreviewImg" src="#" alt="Preview Nota" class="h-full object-contain">
+            </div>
+          </div>
+        </div>
+
+        <div class="flex items-center justify-end space-x-2 pt-3 border-t border-slate-100">
+          <button type="button" onclick="document.getElementById('modalAddExpense').classList.add('hidden')" 
+                  class="px-4 py-2 text-xs font-bold text-slate-600 hover:bg-slate-100 rounded-xl transition-colors">
+            Batal
+          </button>
+          <button type="submit" 
+                  class="px-5 py-2 text-xs font-bold gradient-emerald text-white rounded-xl shadow-md hover:opacity-95 transition-all">
+            Simpan Pengeluaran
+          </button>
+        </div>
+      </form>
+
+    </div>
+  </div>
+
+  <!-- 4. Modal Lihat Bukti Nota (High-Resolution Viewer) -->
+  <div id="modalReceiptViewer" class="modal modal-backdrop fixed inset-0 z-50 bg-slate-900/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl border border-slate-100 animate-in fade-in zoom-in duration-200">
+      
+      <div class="flex items-center justify-between pb-3 border-b border-slate-100 mb-3">
+        <div>
+          <h3 id="viewerReceiptTitle" class="font-bold text-slate-900 text-sm sm:text-base">Bukti Nota Transaksi</h3>
+          <p id="viewerReceiptMeta" class="text-xs text-slate-500"></p>
+        </div>
+        <button onclick="document.getElementById('modalReceiptViewer').classList.add('hidden')" class="text-slate-400 hover:text-slate-600">
+          <i class="fa-solid fa-xmark text-lg"></i>
+        </button>
+      </div>
+
+      <div class="rounded-2xl border border-slate-200 bg-slate-50 overflow-hidden flex items-center justify-center p-2 max-h-[60vh]">
+        <img id="viewerReceiptImg" src="#" alt="Foto Nota" class="max-h-[55vh] w-auto object-contain rounded-lg">
+      </div>
+
+      <div class="mt-4 flex items-center justify-between text-xs pt-3 border-t border-slate-100">
+        <span class="text-slate-500"><i class="fa-solid fa-shield-check text-emerald-600 mr-1"></i>Bukti fisik terverifikasi bendahara</span>
+        <button onclick="document.getElementById('modalReceiptViewer').classList.add('hidden')" 
+                class="px-4 py-2 font-bold text-white bg-slate-800 rounded-xl hover:bg-slate-900 transition-colors">
+          Tutup
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- 5. Modal Tambah Siswa Baru -->
+  <div id="modalAddStudent" class="modal modal-backdrop fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-sm w-full p-6 shadow-2xl border border-slate-100 animate-in fade-in zoom-in duration-200">
+      
+      <div class="flex items-center justify-between pb-3 border-b border-slate-100 mb-4">
+        <h3 class="font-bold text-base text-slate-900">Tambah Siswa ke Kas Kelas</h3>
+        <button onclick="document.getElementById('modalAddStudent').classList.add('hidden')" class="text-slate-400 hover:text-slate-600">
+          <i class="fa-solid fa-xmark text-lg"></i>
+        </button>
+      </div>
+
+      <form id="formStudent" class="space-y-3.5 text-xs">
+        <div>
+          <label class="block font-bold text-slate-700 mb-1">Nomor Absen</label>
+          <input type="text" id="studentAbsen" required placeholder="Contoh: 31" 
+                 class="w-full px-3 py-2 rounded-xl bg-slate-50 border border-slate-200 focus:outline-none focus:ring-2 focus:ring-emerald-500">
+        </div>
+
+        <div>
+          <label class="block font-bold text-slate-700 mb-1">Nama Lengkap Siswa</label>
+          <input type="text" id="studentName" required placeholder="Contoh: Zaky Al Farizi" 
+                 class="w-full px-3 py-2 rounded-xl bg-slate-50 border border-slate-200 focus:outline-none focus:ring-2 focus:ring-emerald-500">
+        </div>
+
+        <div>
+          <label class="block font-bold text-slate-700 mb-1">Jenis Kelamin</label>
+          <select id="studentGender" class="w-full px-3 py-2 rounded-xl bg-slate-50 border border-slate-200">
+            <option value="L">Laki-Laki (L)</option>
+            <option value="P">Perempuan (P)</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="block font-bold text-slate-700 mb-1">Nomor WhatsApp (Untuk Reminder)</label>
+          <input type="text" id="studentPhone" placeholder="Contoh: 081234567890" 
+                 class="w-full px-3 py-2 rounded-xl bg-slate-50 border border-slate-200 focus:outline-none focus:ring-2 focus:ring-emerald-500">
+        </div>
+
+        <div class="flex items-center justify-end space-x-2 pt-3 border-t border-slate-100">
+          <button type="button" onclick="document.getElementById('modalAddStudent').classList.add('hidden')" 
+                  class="px-4 py-2 text-xs font-bold text-slate-600 hover:bg-slate-100 rounded-xl transition-colors">
+            Batal
+          </button>
+          <button type="submit" 
+                  class="px-5 py-2 text-xs font-bold gradient-emerald text-white rounded-xl shadow-md hover:opacity-95 transition-all">
+            Simpan Siswa
+          </button>
+        </div>
+      </form>
+
+    </div>
+  </div>
+
+  <!-- 6. Modal Pengaturan Kas & Kelas -->
+  <div id="modalSettings" class="modal modal-backdrop fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-lg w-full p-6 shadow-2xl border border-slate-100 max-h-[90vh] overflow-y-auto animate-in fade-in zoom-in duration-200">
+      
+      <div class="flex items-center justify-between pb-3 border-b border-slate-100 mb-4">
+        <div class="flex items-center space-x-2.5">
+          <div class="w-9 h-9 rounded-xl bg-slate-100 text-slate-700 flex items-center justify-center">
+            <i class="fa-solid fa-gear"></i>
+          </div>
+          <h3 class="font-bold text-base text-slate-900">Pengaturan Sistem Kas Kelas</h3>
+        </div>
+        <button onclick="document.getElementById('modalSettings').classList.add('hidden')" class="text-slate-400 hover:text-slate-600">
+          <i class="fa-solid fa-xmark text-lg"></i>
+        </button>
+      </div>
+
+      <form id="formSettings" class="space-y-3.5 text-xs">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">Nama Kelas</label>
+            <input type="text" id="setClassName" required 
+                   class="w-full px-3 py-2 rounded-xl bg-slate-50 border border-slate-200 focus:outline-none focus:ring-2 focus:ring-emerald-500">
+          </div>
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">Nama Sekolah</label>
+            <input type="text" id="setSchoolName" required 
+                   class="w-full px-3 py-2 rounded-xl bg-slate-50 border border-slate-200 focus:outline-none focus:ring-2 focus:ring-emerald-500">
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">Tarif Kas Mingguan (Rp)</label>
+            <input type="number" id="setCashRate" required step="1000" 
+                   class="w-full px-3 py-2 rounded-xl bg-slate-50 border border-slate-200 font-bold focus:outline-none focus:ring-2 focus:ring-emerald-500">
+          </div>
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">Periode Bulan Ini</label>
+            <input type="text" id="setMonth" required placeholder="Contoh: Oktober 2026" 
+                   class="w-full px-3 py-2 rounded-xl bg-slate-50 border border-slate-200 focus:outline-none focus:ring-2 focus:ring-emerald-500">
+          </div>
+        </div>
+
+        <div>
+          <label class="block font-bold text-slate-700 mb-1">Nama Bendahara</label>
+          <input type="text" id="setTreasurer" placeholder="Contoh: Zahra & Farhan" 
+                 class="w-full px-3 py-2 rounded-xl bg-slate-50 border border-slate-200 focus:outline-none focus:ring-2 focus:ring-emerald-500">
+        </div>
+
+        <div>
+          <label class="block font-bold text-slate-700 mb-1">No HP Bendahara</label>
+          <input type="text" id="setPhone" placeholder="Contoh: 081234567890" 
+                 class="w-full px-3 py-2 rounded-xl bg-slate-50 border border-slate-200 focus:outline-none focus:ring-2 focus:ring-emerald-500">
+        </div>
+
+        <div>
+          <label class="block font-bold text-slate-700 mb-1">Info Transfer / Rekening / E-Wallet</label>
+          <textarea id="setPaymentInfo" rows="2" 
+                    class="w-full px-3 py-2 rounded-xl bg-slate-50 border border-slate-200 font-mono text-xs focus:outline-none focus:ring-2 focus:ring-emerald-500"></textarea>
+        </div>
+
+        <div class="p-3 rounded-xl bg-amber-50 border border-amber-200">
+          <label class="block font-bold text-amber-900 mb-1">Ganti PIN Bendahara (Opsional)</label>
+          <input type="password" id="setNewPin" placeholder="Kosongkan jika tidak ingin diubah" 
+                 class="w-full px-3 py-2 rounded-xl bg-white border border-amber-300 font-mono text-xs">
+          <span class="text-[11px] text-amber-700 mt-1 block">Default PIN: 1234. Minimal 4 digit.</span>
+        </div>
+
+        <div class="flex items-center justify-between pt-4 border-t border-slate-100">
+          <button type="button" onclick="App.resetAllData()" 
+                  class="px-3 py-2 text-xs font-bold text-rose-600 hover:bg-rose-50 rounded-xl transition-colors">
+            <i class="fa-solid fa-rotate-left mr-1"></i>Reset ke Data Demo
+          </button>
+
+          <div class="flex items-center space-x-2">
+            <button type="button" onclick="document.getElementById('modalSettings').classList.add('hidden')" 
+                    class="px-4 py-2 text-xs font-bold text-slate-600 hover:bg-slate-100 rounded-xl transition-colors">
+              Batal
+            </button>
+            <button type="submit" 
+                    class="px-5 py-2 text-xs font-bold bg-slate-900 hover:bg-slate-800 text-white rounded-xl shadow-md transition-all">
+              Simpan Pengaturan
+            </button>
+          </div>
+        </div>
+      </form>
+
+    </div>
+  </div>
+
+  <!-- 7. Modal QR Code Papan Tulis Kelas -->
+  <div id="modalQR" class="modal modal-backdrop fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-sm w-full p-6 text-center shadow-2xl border border-slate-100 animate-in fade-in zoom-in duration-200">
+      
+      <div class="flex items-center justify-between pb-3 border-b border-slate-100 mb-4">
+        <h3 class="font-bold text-slate-900 text-sm">QR Code Mading / Papan Tulis</h3>
+        <button onclick="document.getElementById('modalQR').classList.add('hidden')" class="text-slate-400 hover:text-slate-600">
+          <i class="fa-solid fa-xmark text-lg"></i>
+        </button>
+      </div>
+
+      <!-- Printable QR Card Design -->
+      <div class="p-4 rounded-2xl bg-gradient-to-b from-emerald-50 to-white border-2 border-emerald-500/30 text-center">
+        <span class="px-3 py-1 rounded-full bg-emerald-600 text-white text-[11px] font-black uppercase tracking-wider">
+          Scan Untuk Cek Kas Kelas
+        </span>
+        <h4 class="font-black text-slate-900 text-lg mt-2 class-title">XII MIPA 2</h4>
+        <p class="text-xs text-slate-500 mb-3">Transparansi Saldo &amp; Status Pembayaran</p>
+
+        <!-- QR Canvas Container -->
+        <div id="qrCodeCanvasContainer" class="flex justify-center p-3 bg-white rounded-xl shadow-inner border border-slate-100 mx-auto w-fit">
+          <!-- Dynamically generated QR Code -->
+        </div>
+
+        <p class="text-[11px] text-slate-400 mt-3">Arahkan kamera smartphone teman sekelas ke QR code di atas</p>
+      </div>
+
+      <div class="mt-4 space-y-2">
+        <input type="text" id="qrShareLink" readonly 
+               class="w-full px-3 py-1.5 text-xs text-center font-mono rounded-lg bg-slate-100 border border-slate-200 text-slate-600 select-all">
+        
+        <div class="flex items-center space-x-2 pt-2">
+          <button onclick="navigator.clipboard.writeText(document.getElementById('qrShareLink').value); App.showToast('Tersalin!', 'Tautan web kas disalin ke clipboard.', 'success');" 
+                  class="flex-1 py-2 text-xs font-bold bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl transition-colors">
+            <i class="fa-regular fa-copy mr-1"></i>Salin Link
+          </button>
+          <button onclick="window.print()" 
+                  class="flex-1 py-2 text-xs font-bold gradient-emerald text-white rounded-xl shadow-md transition-all">
+            <i class="fa-solid fa-print mr-1"></i>Cetak Kartu
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- External & Application Scripts -->
+  <script src="js/data.js"></script>
+  <script src="js/charts.js"></script>
+  <script src="js/supabase.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Profil Perusahaan — SEJUKPRO™ (PT Sejuk Teknik Nusantara)</title>
+  <meta name="description" content="Profil resmi PT Sejuk Teknik Nusantara (SEJUKPRO™). Ahli tata udara, teknisi bersertifikat BNSP, visi misi, dan komitmen layanan servis AC jujur bergaransi.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css?v=2.1">
+</head>
+<body data-theme="dark">
+  <!-- Atmospheric Air/Cooling Glow Background -->
+  <div class="bg-glow-orb orb-1"></div>
+  <div class="bg-glow-orb orb-2"></div>
+  <div class="bg-glow-orb orb-3"></div>
+
+  <!-- Announcement Bar -->
+  <aside class="announcement-bar" aria-label="Pengumuman promo">
+    <div class="container announcement-inner">
+      <span class="badge-pill">PROMO MUSIM PANAS</span>
+      <p>Diskon 20% Cuci AC Paket 3 Unit + Gratis Uji Kebocoran & Pengecekan Freon!</p>
+      <a href="kontak.html" class="announcement-link">Klaim Promo &rarr;</a>
+    </div>
+  </aside>
+
+  <!-- Navigation Bar -->
+  <header class="navbar" id="navbar">
+    <div class="container nav-container">
+      <a href="index.html" class="brand-logo" aria-label="SEJUKPRO Beranda">
+        <div class="logo-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 2v20M2 12h20M4.93 4.93l14.14 14.14M4.93 19.07l14.14-14.14"/>
+            <circle cx="12" cy="12" r="3"/>
+          </svg>
+        </div>
+        <div class="brand-text">
+          <span class="brand-name">SEJUK<span>PRO</span></span>
+          <span class="brand-sub">PT SEJUK TEKNIK NUSANTARA</span>
+        </div>
+      </a>
+
+      <nav class="nav-links" id="navMenu">
+        <a href="index.html" class="nav-link">Beranda</a>
+        <a href="profil.html" class="nav-link active">Profil</a>
+        <a href="layanan.html" class="nav-link">Layanan</a>
+        <a href="kalkulator-btu.html" class="nav-link nav-highlight">
+          <span class="tool-dot"></span> Kalkulator BTU
+        </a>
+        <a href="diagnosa.html" class="nav-link">Diagnosa</a>
+        <a href="faq.html" class="nav-link">FAQ</a>
+        <a href="kontak.html" class="nav-link">Kontak</a>
+      </nav>
+
+      <div class="nav-actions">
+        <button id="landscapeToggle" class="btn-icon" aria-label="Ganti Mode Landscape / Boxed" title="Mode Tampilan: Landscape / Boxed">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="2" y="4" width="20" height="13" rx="2"></rect>
+            <path d="M8 21h8m-4-4v4"></path>
+          </svg>
+        </button>
+        <button id="themeToggle" class="btn-icon" aria-label="Ganti Tema Tampilan" title="Ganti Tema">
+          <svg class="sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="5"></circle>
+            <path d="M12 1v2m0 18v2M4.22 4.22l1.42 1.42m12.72 12.72l1.42 1.42M1 12h2m18 0h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"></path>
+          </svg>
+          <svg class="moon-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+          </svg>
+        </button>
+
+        <a href="admin.html" class="btn btn-outline nav-admin-btn" title="Portal Administrator SEJUKPRO">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:15px;height:15px;">
+            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+            <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+          </svg>
+          <span>Admin</span>
+        </a>
+
+        <a href="kontak.html" class="btn btn-primary nav-cta">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+          </svg>
+          Booking Servis
+        </a>
+
+        <button class="hamburger-btn" id="mobileMenuBtn" aria-label="Menu Navigasi Mobile">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- INNER HERO HEADER -->
+  <header class="inner-hero">
+    <div class="container inner-hero-content">
+      <div class="breadcrumb">
+        <a href="index.html">Beranda</a>
+        <span class="separator">/</span>
+        <span>Profil Perusahaan</span>
+      </div>
+      <h1 class="inner-hero-title">
+        Solusi Tata Udara Profesional & <span class="gradient-text">Berintegritas Sejak 2012</span>
+      </h1>
+      <p class="inner-hero-desc">
+        Mengenal PT Sejuk Teknik Nusantara — mitra terpercaya ribuan hunian, perkantoran, perhotelan, hingga industri dalam menciptakan sirkulasi udara bersih, dingin stabil, dan hemat energi.
+      </p>
+    </div>
+  </header>
+
+  <main>
+    <!-- COMPANY PROFILE SECTION -->
+    <section class="section profile-section" id="profile" style="padding-top: 2rem;">
+      <div class="container">
+        <div class="profile-grid">
+          <div class="profile-card about-card glass-card">
+            <div class="card-icon-header">
+              <div class="card-icon cyan">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                  <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                </svg>
+              </div>
+              <span class="card-subtitle">Tentang Kami</span>
+            </div>
+            <h3>PT SEJUK TEKNIK NUSANTARA (SEJUKPRO™)</h3>
+            <p>
+              Berdiri lebih dari 12 tahun yang lalu, kami hadir untuk mengubah stigma servis AC yang rawan kecurangan (biaya terselubung, vonis freon palsu, atau pengerjaan asal-asalan). 
+            </p>
+            <p>
+              Dengan standar operasional ketat (SOP Berstandar Internasional), teknisi bersertifikat BNSP, manifold digital akurat, serta chemical pembersih biodegradable anti-korosi, kami menjamin AC Anda kembali dingin seperti baru tanpa merusak komponen.
+            </p>
+            <div class="stat-counters-row">
+              <div class="counter-box">
+                <span class="counter-num">12+</span>
+                <span class="counter-label">Tahun Pengalaman</span>
+              </div>
+              <div class="counter-box">
+                <span class="counter-num">25.000+</span>
+                <span class="counter-label">Unit Diservis</span>
+              </div>
+              <div class="counter-box">
+                <span class="counter-num">98.7%</span>
+                <span class="counter-label">Tingkat Kepuasan</span>
+              </div>
+              <div class="counter-box">
+                <span class="counter-num">65+</span>
+                <span class="counter-label">Teknisi Tersertifikasi</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="profile-card vision-mission-card glass-card">
+            <div class="card-icon-header">
+              <div class="card-icon blue">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"></path>
+                  <path d="M2 12h20"></path>
+                </svg>
+              </div>
+              <span class="card-subtitle">Visi & Misi</span>
+            </div>
+            <h3>Arah & Komitmen Perusahaan</h3>
+            <div class="vision-box">
+              <h4>🎯 Visi Kami</h4>
+              <p>Menjadi pelopor ekosistem layanan tata udara (HVAC) paling transparan, profesional, berteknologi tinggi, dan ramah lingkungan nomor satu di Indonesia.</p>
+            </div>
+            <div class="mission-box">
+              <h4>🚀 Misi Kami</h4>
+              <ul class="check-list">
+                <li>Memberikan pelayanan teknis jujur dan transparan melalui pengukuran digital.</li>
+                <li>Menghadirkan kenyamanan udara bersih dan sehat bebas kuman bagi keluarga dan ruang kerja.</li>
+                <li>Membantu konsumen menghemat konsumsi energi listrik melalui pemilihan kapasitas BTU yang presisi.</li>
+                <li>Mendukung kelestarian alam dengan menghentikan penggunaan freon perusak ozon dan mengedepankan refrigeran ramah lingkungan.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- 4 Pillars of Excellence -->
+        <div class="pillars-section">
+          <h3 class="pillars-title text-center">4 Nilai Keunggulan Utama Layanan Kami</h3>
+          <div class="pillars-grid">
+            <div class="pillar-card glass-card">
+              <div class="pillar-num">01</div>
+              <h4>Teknisi Resmi & BNSP</h4>
+              <p>Seluruh teknisi melewati seleksi ketat, background check, sertifikasi keselamatan kerja, dan pelatihan resmi authorized brand.</p>
+            </div>
+            <div class="pillar-card glass-card">
+              <div class="pillar-num">02</div>
+              <h4>Transparansi Tanpa Modus</h4>
+              <p>Biaya dijelaskan transparan sebelum pengerjaan. Tekanan freon dan ampere kompresor diuji langsung di depan Anda dengan alat digital.</p>
+            </div>
+            <div class="pillar-card glass-card">
+              <div class="pillar-num">03</div>
+              <h4>Garansi Pengerjaan Resmi</h4>
+              <p>Setiap servis cuci, perbaikan, maupun instalasi dilengkapi invoice digital resmi serta garansi pengerjaan hingga 90 hari.</p>
+            </div>
+            <div class="pillar-card glass-card">
+              <div class="pillar-num">04</div>
+              <h4>Peralatan Higienis Modern</h4>
+              <p>Menggunakan jet pump bertekanan khusus anti-rusak kisi, plastik pelindung ruangan bebas cipratan, dan cairan desinfektan steril.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TRUSTED CLIENTS / BRAND PARTNERS -->
+    <section class="brands-marquee-section">
+      <div class="container">
+        <p class="marquee-title">KOMPATIBILITAS RESMI DENGAN SEMUA MERK TERNAMA</p>
+        <div class="brands-track">
+          <div class="brand-item">DAIKIN</div>
+          <div class="brand-item">PANASONIC</div>
+          <div class="brand-item">MITSUBISHI ELECTRIC</div>
+          <div class="brand-item">GREE</div>
+          <div class="brand-item">SHARP</div>
+          <div class="brand-item">LG ELECTRONICS</div>
+          <div class="brand-item">SAMSUNG</div>
+          <div class="brand-item">POLYTRON</div>
+          <div class="brand-item">AUX AIR CONDITIONER</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA BANNER SECTION -->
+    <section class="cta-banner-section">
+      <div class="container">
+        <div class="cta-banner-card">
+          <div class="cta-content">
+            <h2>Ingin Konsultasi Kebutuhan AC Rumah atau Kantor Anda?</h2>
+            <p>Tim ahli kami siap memberikan rekomendasi terbaik dan survei lokasi tanpa biaya tersembunyi.</p>
+          </div>
+          <div class="cta-buttons">
+            <a href="kontak.html" class="btn btn-primary btn-lg">Booking Teknisi Sekarang</a>
+            <a href="layanan.html" class="btn btn-secondary btn-lg">Lihat Daftar Layanan</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container footer-grid">
+      <div class="footer-col brand-col">
+        <div class="brand-logo footer-logo">
+          <div class="logo-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M12 2v20M2 12h20M4.93 4.93l14.14 14.14M4.93 19.07l14.14-14.14"/>
+              <circle cx="12" cy="12" r="3"/>
+            </svg>
+          </div>
+          <div class="brand-text">
+            <span class="brand-name">SEJUK<span>PRO</span></span>
+            <span class="brand-sub">PT SEJUK TEKNIK NUSANTARA</span>
+          </div>
+        </div>
+        <p class="footer-desc">
+          Penyedia jasa tata udara, pemeliharaan sistem pendingin (HVAC), instalasi AC terkemuka dengan reputasi keandalan, kejujuran teknis, dan kepuasan pelanggan nomor satu di Indonesia.
+        </p>
+      </div>
+
+      <div class="footer-col">
+        <h4 class="footer-heading">Navigasi Halaman</h4>
+        <ul class="footer-links">
+          <li><a href="index.html">Beranda</a></li>
+          <li><a href="profil.html">Profil Perusahaan</a></li>
+          <li><a href="layanan.html">Daftar Layanan & Biaya</a></li>
+          <li><a href="kalkulator-btu.html">Kalkulator BTU Ruangan</a></li>
+          <li><a href="diagnosa.html">Diagnosa Cepat Masalah AC</a></li>
+          <li><a href="faq.html">FAQ & Bantuan</a></li>
+          <li><a href="kontak.html">Pusat Layanan Pelanggan</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4 class="footer-heading">Layanan Unggulan</h4>
+        <ul class="footer-links">
+          <li><a href="layanan.html">Cuci AC Steam Bertekanan</a></li>
+          <li><a href="layanan.html">Chemical Deep Clean Higienis</a></li>
+          <li><a href="layanan.html">Tambah & Isi Freon R32/R410A</a></li>
+          <li><a href="layanan.html">Instalasi AC Split & Inverter</a></li>
+          <li><a href="layanan.html">Perbaikan Modul PCB & Kompresor</a></li>
+          <li><a href="layanan.html">Maintenance Kontrak Gedung</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4 class="footer-heading">Kantor & Layanan CS</h4>
+        <address class="footer-address">
+          <p><strong>Kantor Pusat & Workshop:</strong></p>
+          <p>Gedung Sejuk Nusantara Lt. 2-3<br>Jl. Rasuna Arteri Pendingin No. 88<br>Jakarta Selatan 12950</p>
+          <p class="contact-line"><strong>📞 Hotline:</strong> (021) 555-1234</p>
+          <p class="contact-line"><strong>💬 WhatsApp CS:</strong> +62 812-2681-8063</p>
+          <p class="contact-line"><strong>✉️ Email:</strong> layanan@sejukpro.co.id</p>
+          <p class="contact-line"><strong>⏰ Jam Kerja:</strong> Senin - Minggu (07.00 - 21.00 WIB)</p>
+        </address>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <div class="container footer-bottom-inner">
+        <p>&copy; 2026 PT Sejuk Teknik Nusantara (SEJUKPRO™). Seluruh hak cipta dilindungi undang-undang.</p>
+        <div class="legal-links">
+          <a href="#">Kebijakan Privasi</a>
+          <a href="#">Syarat & Ketentuan Garansi</a>
+          <a href="#">SOP Teknisi</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- FLOATING WHATSAPP & SUPPORT WIDGET -->
+  <aside class="floating-widget-wrapper" aria-label="Widget bantuan WhatsApp">
+    <div class="wa-popup-card" id="waPopupCard">
+      <div class="wa-popup-header">
+        <div class="wa-popup-avatar">
+          <svg viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/>
+          </svg>
+          <span class="wa-live-dot"></span>
+        </div>
+        <div>
+          <h4>Customer Service SEJUKPRO</h4>
+          <span class="wa-time-status">Aktif sekarang • Respon instan</span>
+        </div>
+        <button type="button" class="wa-close-btn" id="waCloseBtn" aria-label="Tutup popup">&times;</button>
+      </div>
+      <div class="wa-popup-body">
+        <div class="chat-bubble received">
+          Halo! Ada yang bisa kami bantu seputar AC rumah atau kantor Anda hari ini? Silakan pilih bantuan cepat di bawah:
+        </div>
+        <div class="quick-prompt-buttons">
+          <button class="btn-prompt" onclick="openWaWithText('Halo CS SejukPro, saya mau tanya profil dan legalitas perusahaan')">
+            🏢 Tanya Info Legalitas & Profil
+          </button>
+          <button class="btn-prompt" onclick="openWaWithText('Halo CS SejukPro, saya butuh penawaran kontrak servis AC kantor/perusahaan')">
+            🤝 Penawaran Kerjasama B2B
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="floating-triggers">
+      <button class="floating-btn wa-trigger-btn" id="waTriggerBtn" aria-label="Buka Chat Layanan Pelanggan WhatsApp">
+        <span class="floating-notification">1</span>
+        <svg viewBox="0 0 24 24" fill="currentColor">
+          <path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2m.01 1.67c4.54 0 8.24 3.7 8.24 8.24 0 2.2-.86 4.28-2.42 5.83-1.56 1.56-3.63 2.41-5.83 2.41-1.42 0-2.81-.37-4.04-1.07l-.29-.17-3.11.82.83-3.03-.19-.31c-.77-1.25-1.18-2.69-1.18-4.18 0-4.54 3.7-8.24 8.24-8.24m4.52 11.66c-.25-.13-1.47-.72-1.7-.81-.23-.08-.39-.13-.56.13-.17.25-.64.81-.79.97-.14.17-.29.19-.54.06-.25-.13-1.06-.39-2.02-1.25-.75-.67-1.26-1.5-1.41-1.75-.14-.25-.02-.39.11-.51.11-.11.25-.29.38-.44.13-.14.17-.25.25-.42.08-.17.04-.31-.02-.44-.06-.13-.56-1.34-.76-1.84-.2-.49-.4-.42-.56-.43h-.47c-.17 0-.44.06-.67.31-.23.25-.88.86-.88 2.1 0 1.24.9 2.44 1.03 2.61.13.17 1.77 2.7 4.29 3.79.6.26 1.07.41 1.43.53.6.19 1.15.16 1.58.1.48-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.15-1.18-.07-.12-.23-.19-.48-.31z"/>
+        </svg>
+      </button>
+
+      <button class="floating-btn scroll-top-btn" id="scrollTopBtn" aria-label="Kembali ke atas">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polyline points="18 15 12 9 6 15"></polyline>
+        </svg>
+      </button>
+    </div>
+  </aside>
+
+  <!-- TOAST NOTIFICATION CONTAINER -->
+  <div class="toast-container" id="toastContainer" aria-live="polite"></div>
+
+  <!-- SCRIPTS -->
+  <script src="supabase-config.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
+

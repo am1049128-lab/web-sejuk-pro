@@ -59,9 +59,9 @@ document.getElementById('sidebarToggle').addEventListener('click', () => {
 function showToast(message, type = 'info') {
   const container = document.getElementById('adminToast');
   const toast = document.createElement('div');
-  toast.className = `toast ${type}`;
+  toast.className = `toast ${escHtml(type)}`;
   const icons = { success: '✅', error: '❌', info: 'ℹ️' };
-  toast.innerHTML = `<span>${icons[type] || 'ℹ️'}</span> ${message}`;
+  toast.innerHTML = `<span>${icons[type] || 'ℹ️'}</span> <span>${escHtml(message)}</span>`;
   container.appendChild(toast);
   setTimeout(() => {
     toast.style.opacity = '0';
@@ -259,7 +259,7 @@ function renderRecentBookings(bookings) {
       <td><strong>${escHtml(b.customer_name)}</strong></td>
       <td>${escHtml(b.service_type)}</td>
       <td>${b.visit_date ? formatDate(b.visit_date) : '-'}</td>
-      <td><span class="badge badge-${b.status}">${b.status}</span></td>
+      <td><span class="badge badge-${escHtml(b.status)}">${escHtml(b.status)}</span></td>
     </tr>
   `).join('');
 }
@@ -289,26 +289,30 @@ function renderProductsTable(products) {
     tbody.innerHTML = '<tr><td colspan="7" class="table-loading">Belum ada produk</td></tr>';
     return;
   }
-  tbody.innerHTML = products.map(p => `
+  tbody.innerHTML = products.map(p => {
+    const safeId = String(p.id || '').replace(/[^a-zA-Z0-9_-]/g, '');
+    const safeBadgeType = escHtml(p.badge_type || 'default');
+    return `
     <tr>
-      <td>${p.sort_order}</td>
+      <td>${Number(p.sort_order) || 0}</td>
       <td><strong>${escHtml(p.name)}</strong><br><small style="color:var(--text-muted)">${escHtml((p.description || '').substring(0, 60))}...</small></td>
       <td><strong>${escHtml(p.price_amount)}</strong><br><small style="color:var(--text-muted)">${escHtml(p.price_unit || '')}</small></td>
-      <td>${p.badge_text ? `<span class="badge badge-${p.badge_type || 'default'}">${escHtml(p.badge_text)}</span>` : '-'}</td>
+      <td>${p.badge_text ? `<span class="badge badge-${safeBadgeType}">${escHtml(p.badge_text)}</span>` : '-'}</td>
       <td>${p.is_featured ? '⭐' : '-'}</td>
       <td><span class="badge badge-${p.is_active ? 'active' : 'inactive'}">${p.is_active ? 'Aktif' : 'Nonaktif'}</span></td>
       <td>
         <div class="action-btns">
-          <button class="btn-icon-sm" onclick="editProduct('${p.id}')" title="Edit">
+          <button class="btn-icon-sm" onclick="editProduct('${safeId}')" title="Edit">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
           </button>
-          <button class="btn-icon-sm danger" onclick="deleteProduct('${p.id}')" title="Hapus">
+          <button class="btn-icon-sm danger" onclick="deleteProduct('${safeId}')" title="Hapus">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
           </button>
         </div>
       </td>
     </tr>
-  `).join('');
+  `;
+  }).join('');
 }
 
 function openProductModal(product = null) {
@@ -423,25 +427,28 @@ function renderPaymentTable(methods) {
     tbody.innerHTML = '<tr><td colspan="6" class="table-loading">Belum ada payment method</td></tr>';
     return;
   }
-  tbody.innerHTML = methods.map(m => `
+  tbody.innerHTML = methods.map(m => {
+    const safeId = String(m.id || '').replace(/[^a-zA-Z0-9_-]/g, '');
+    return `
     <tr>
-      <td>${m.sort_order}</td>
-      <td style="font-size:1.5rem">${m.icon || '💳'}</td>
+      <td>${Number(m.sort_order) || 0}</td>
+      <td style="font-size:1.5rem">${escHtml(m.icon || '💳')}</td>
       <td><strong>${escHtml(m.name)}</strong></td>
       <td>${escHtml(m.description || '-')}</td>
       <td><span class="badge badge-${m.is_active ? 'active' : 'inactive'}">${m.is_active ? 'Aktif' : 'Nonaktif'}</span></td>
       <td>
         <div class="action-btns">
-          <button class="btn-icon-sm" onclick="editPaymentMethod('${m.id}')" title="Edit">
+          <button class="btn-icon-sm" onclick="editPaymentMethod('${safeId}')" title="Edit">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
           </button>
-          <button class="btn-icon-sm danger" onclick="deletePaymentMethod('${m.id}')" title="Hapus">
+          <button class="btn-icon-sm danger" onclick="deletePaymentMethod('${safeId}')" title="Hapus">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
           </button>
         </div>
       </td>
     </tr>
-  `).join('');
+  `;
+  }).join('');
 }
 
 function openPaymentModal(method = null) {
@@ -539,7 +546,9 @@ function renderBookingsTable(bookings) {
     tbody.innerHTML = '<tr><td colspan="8" class="table-loading">Tidak ada data booking</td></tr>';
     return;
   }
-  tbody.innerHTML = bookings.map(b => `
+  tbody.innerHTML = bookings.map(b => {
+    const safeId = String(b.id || '').replace(/[^a-zA-Z0-9_-]/g, '');
+    return `
     <tr>
       <td>
         <strong>${escHtml(b.customer_name)}</strong>
@@ -550,7 +559,7 @@ function renderBookingsTable(bookings) {
       <td>${b.visit_date ? formatDate(b.visit_date) : '-'}<br><small style="color:var(--text-muted)">${escHtml(b.time_slot || '')}</small></td>
       <td>${escHtml(b.payment_method || '-')}</td>
       <td>
-        <select class="status-select" onchange="updateBookingStatus('${b.id}', this.value)">
+        <select class="status-select" onchange="updateBookingStatus('${safeId}', this.value)">
           <option value="pending" ${b.status === 'pending' ? 'selected' : ''}>Pending</option>
           <option value="confirmed" ${b.status === 'confirmed' ? 'selected' : ''}>Confirmed</option>
           <option value="in_progress" ${b.status === 'in_progress' ? 'selected' : ''}>In Progress</option>
@@ -560,16 +569,17 @@ function renderBookingsTable(bookings) {
       </td>
       <td>
         <div class="action-btns">
-          <button class="btn-icon-sm" onclick="viewBookingDetail('${b.id}')" title="Lihat Detail">
+          <button class="btn-icon-sm" onclick="viewBookingDetail('${safeId}')" title="Lihat Detail">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
           </button>
-          <button class="btn-icon-sm danger" onclick="deleteBooking('${b.id}')" title="Hapus">
+          <button class="btn-icon-sm danger" onclick="deleteBooking('${safeId}')" title="Hapus">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
           </button>
         </div>
       </td>
     </tr>
-  `).join('');
+  `;
+  }).join('');
 }
 
 async function updateBookingStatus(id, newStatus) {
@@ -669,9 +679,12 @@ async function deleteBooking(id) {
 
 function escHtml(str) {
   if (!str) return '';
-  const div = document.createElement('div');
-  div.textContent = str;
-  return div.innerHTML;
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
 }
 
 function formatDate(dateStr) {
@@ -859,6 +872,7 @@ async function handleAdminRegister(event) {
   const nameInput = document.getElementById('registerName');
   const emailInput = document.getElementById('registerEmail');
   const pwdInput = document.getElementById('registerPassword');
+  const passcodeInput = document.getElementById('registerPasscode');
   const submitBtn = document.getElementById('btnRegisterSubmit');
   const btnText = submitBtn.querySelector('.btn-text');
   const btnSpinner = submitBtn.querySelector('.btn-spinner');
@@ -866,9 +880,18 @@ async function handleAdminRegister(event) {
   const name = nameInput.value.trim();
   const email = emailInput.value.trim();
   const password = pwdInput.value;
+  const passcode = passcodeInput ? passcodeInput.value.trim() : '';
 
-  if (!name || !email || !password) {
-    showAuthAlert('Seluruh kolom formulir pendaftaran wajib diisi.');
+  // Validasi Keamanan: Kode Otorisasi Super Admin
+  const AUTHORIZED_PASSCODE = 'SEJUKPRO-ADMIN-2026';
+
+  if (!name || !email || !password || !passcode) {
+    showAuthAlert('Seluruh kolom formulir pendaftaran dan Kode Otorisasi wajib diisi.');
+    return;
+  }
+
+  if (passcode !== AUTHORIZED_PASSCODE) {
+    showAuthAlert('Kode Otorisasi Super Admin salah atau tidak memiliki izin akses pendaftaran.');
     return;
   }
 
@@ -885,7 +908,7 @@ async function handleAdminRegister(event) {
     const { data, error } = await supabase.auth.signUp({
       email,
       password,
-      metadata: { name }
+      metadata: { name, role: 'admin' }
     });
 
     if (error) {
@@ -893,12 +916,12 @@ async function handleAdminRegister(event) {
       return;
     }
 
-    showAuthAlert('Pendaftaran berhasil! Jika konfirmasi email aktif, silakan periksa inbox email Anda, atau Anda sekarang dapat langsung masuk.', 'success');
+    showAuthAlert('Pendaftaran berhasil! Akun administrator telah dibuat. Silakan login.', 'success');
     showToast('Akun admin berhasil didaftarkan!', 'success');
 
     // Jika dapat auto-session
     if (data.session || data.access_token) {
-      const user = data.user || { email, user_metadata: { name } };
+      const user = data.user || { email, user_metadata: { name, role: 'admin' } };
       updateAdminProfileUI(user);
       setTimeout(() => {
         hideLoginModal();
@@ -922,12 +945,8 @@ async function handleAdminRegister(event) {
 }
 
 function handleDemoLogin() {
-  const { data } = supabase.auth.signInDemo('admin.demo@sejukpro.com');
-  updateAdminProfileUI(data.user);
-  hideLoginModal();
-  showToast('Masuk dalam Mode Demo (Bypass Supabase Auth)', 'info');
-  checkConnection();
-  loadDashboard();
+  showToast('Mode Demo Bypass dinonaktifkan demi kepatuhan keamanan data pelanggan.', 'error');
+  showAuthAlert('Mode Demo dinonaktifkan untuk produksi. Harap masuk menggunakan kredensial admin resmi.');
 }
 
 async function handleAdminLogout() {
@@ -949,6 +968,14 @@ async function handleAdminLogout() {
 // Cek status autentikasi saat aplikasi pertama kali dimuat
 async function checkAuthState() {
   const session = supabase.auth.getSession();
+
+  // Bersihkan demo session jika ada dari sesi lama
+  if (session && session.is_demo) {
+    supabase.auth.signOut(false);
+    updateAdminProfileUI(null);
+    showLoginModal();
+    return;
+  }
 
   if (session && session.user) {
     // Validasi atau perbarui data user

@@ -120,6 +120,9 @@ function initNavbarScroll() {
    3. Interactive Hero AC Unit Simulator
    ========================================================================== */
 function initHeroAcSimulator() {
+  const sim = document.getElementById('acUnitBody');
+  if (!sim) return;
+
   const simTempDisplay = document.getElementById('simTempDisplay');
   const simTargetTemp = document.getElementById('simTargetTemp');
   const btnTempDown = document.getElementById('btnTempDown');
@@ -188,6 +191,9 @@ function initHeroAcSimulator() {
    4. BTU & PK Interactive Calculator Engine
    ========================================================================== */
 function initBtuCalculator() {
+  const calcSection = document.getElementById('btu-calculator');
+  if (!calcSection) return;
+
   // Tabs
   const tabDimensi = document.getElementById('tabDimensi');
   const tabLuas = document.getElementById('tabLuas');
@@ -490,6 +496,9 @@ window.adjustStep = function(id, delta) {
    5. Interactive Troubleshooting Diagnostic Tool
    ========================================================================== */
 function initTroubleshooter() {
+  const troubleshooter = document.getElementById('troubleshooter');
+  if (!troubleshooter) return;
+
   const pills = document.querySelectorAll('.diag-pill');
   const diagIcon = document.getElementById('diagIcon');
   const diagTitle = document.getElementById('diagTitle');
@@ -637,22 +646,24 @@ window.preselectService = function(serviceName, customNotes = '') {
   const custNotes = document.getElementById('custNotes');
   const targetSection = document.getElementById('customer-service');
 
-  if (custService) {
+  if (targetSection && custService) {
     for (let i = 0; i < custService.options.length; i++) {
       if (custService.options[i].value === serviceName) {
         custService.selectedIndex = i;
         break;
       }
     }
-  }
-
-  if (customNotes && custNotes) {
-    custNotes.value = customNotes;
-  }
-
-  if (targetSection) {
+    if (customNotes && custNotes) {
+      custNotes.value = customNotes;
+    }
     targetSection.scrollIntoView({ behavior: 'smooth' });
-    showToast(`Layanan "${serviceName}" otomatis dipilih pada form pemesanan.`);
+    showToast(`Layanan "${serviceName}" otomatis dipilih pada form.`);
+  } else {
+    // If on a different page, redirect to kontak.html with query params
+    const params = new URLSearchParams();
+    if (serviceName) params.set('service', serviceName);
+    if (customNotes) params.set('notes', customNotes);
+    window.location.href = `kontak.html?${params.toString()}`;
   }
 };
 
@@ -679,8 +690,37 @@ function initBookingForm() {
 
   if (!form) return;
 
+  // Auto-fill from URL Query Params (?service=...&notes=...)
+  const urlParams = new URLSearchParams(window.location.search);
+  const serviceParam = urlParams.get('service');
+  const notesParam = urlParams.get('notes');
+  const custService = document.getElementById('custService');
+  const custNotes = document.getElementById('custNotes');
+
+  if (serviceParam && custService) {
+    for (let i = 0; i < custService.options.length; i++) {
+      const optVal = custService.options[i].value.toLowerCase();
+      const sVal = serviceParam.toLowerCase();
+      if (optVal.includes(sVal) || sVal.includes(optVal)) {
+        custService.selectedIndex = i;
+        break;
+      }
+    }
+  }
+
+  if (notesParam && custNotes) {
+    custNotes.value = notesParam;
+  }
+
   form.addEventListener('submit', (e) => {
     e.preventDefault();
+
+    // Anti-bot honeypot check
+    const honeypot = document.getElementById('custHoneypot');
+    if (honeypot && honeypot.value.trim() !== '') {
+      console.warn('[Security] Bot submission blocked by honeypot.');
+      return;
+    }
 
     let isValid = true;
     const nameInput = document.getElementById('custName');
@@ -713,6 +753,13 @@ function initBookingForm() {
       return;
     }
 
+    // Phone format sanity check
+    const cleanPhone = phoneInput.value.trim().replace(/[^0-9+]/g, '');
+    if (cleanPhone.length < 8 || cleanPhone.length > 16) {
+      showToast('Nomor WhatsApp tidak valid. Masukkan nomor yang benar (misal: 08123456789).');
+      return;
+    }
+
     // Build payload
     const name = nameInput.value.trim();
     const phone = phoneInput.value.trim();
@@ -740,8 +787,9 @@ function initBookingForm() {
     const encodedWa = encodeURIComponent(waText);
     const waUrl = `https://wa.me/6281226818063?text=${encodedWa}`;
 
+    // XSS-Safe DOM rendering
     if (modalSummary) {
-      modalSummary.innerHTML = `Terima kasih, <strong>${name}</strong>!<br>Pemesanan <strong>${service} (${unitCount})</strong> untuk tanggal <strong>${date}</strong> (${slot}) telah tercatat. Klik tombol hijau di bawah untuk langsung membuka chat WhatsApp dengan Customer Service kami.`;
+      modalSummary.innerHTML = `Terima kasih, <strong>${escapeHTML(name)}</strong>!<br>Pemesanan <strong>${escapeHTML(service)} (${escapeHTML(unitCount)})</strong> untuk tanggal <strong>${escapeHTML(date)}</strong> (${escapeHTML(slot)}) telah tercatat. Klik tombol hijau di bawah untuk langsung membuka chat WhatsApp dengan Customer Service kami.`;
     }
 
     if (modalWaActionBtn) {
@@ -860,8 +908,18 @@ window.openWaWithText = function(text) {
 };
 
 /* ==========================================================================
-   9. Toast Notification Utility
+   9. Utilities (Security Sanitizer & Toast Notification)
    ========================================================================== */
+function escapeHTML(str) {
+  if (!str) return '';
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
+}
+
 function showToast(message) {
   const container = document.getElementById('toastContainer');
   if (!container) return;
@@ -934,11 +992,12 @@ function renderDynamicProducts(products) {
   if (!container) return;
 
   container.innerHTML = products.map(p => {
-    const isFeatured = p.is_featured;
-    const badgeHtml = p.badge_text
-      ? `<div class="service-badge ${p.badge_type === 'gold' ? 'gold-badge' : ''}">${p.badge_text}</div>`
+    const isFeatured = Boolean(p.is_featured);
+    const safeBadge = p.badge_text ? escapeHTML(p.badge_text) : '';
+    const badgeHtml = safeBadge
+      ? `<div class="service-badge ${p.badge_type === 'gold' ? 'gold-badge' : ''}">${safeBadge}</div>`
       : '';
-    const featuresHtml = (p.features || []).map(f => `<span>✓ ${f}</span>`).join('');
+    const featuresHtml = (p.features || []).map(f => `<span>✓ ${escapeHTML(f)}</span>`).join('');
     const ctaVal = p.cta_service_value || p.name;
     const btnClass = isFeatured ? 'btn btn-primary full-width' : 'btn btn-outline full-width';
 
@@ -948,17 +1007,17 @@ function renderDynamicProducts(products) {
         <div class="service-icon">
           ${getServiceIconSvg(p.icon_type)}
         </div>
-        <h3>${p.name}</h3>
-        <p class="service-desc">${p.description || ''}</p>
+        <h3>${escapeHTML(p.name)}</h3>
+        <p class="service-desc">${escapeHTML(p.description || '')}</p>
         <div class="service-features">
           ${featuresHtml}
         </div>
         <div class="price-box">
-          <span class="price-from">${p.price_label || 'Mulai dari'}</span>
-          <span class="price-amount">${p.price_amount}</span>
-          <span class="price-unit">${p.price_unit || ''}</span>
+          <span class="price-from">${escapeHTML(p.price_label || 'Mulai dari')}</span>
+          <span class="price-amount">${escapeHTML(p.price_amount)}</span>
+          <span class="price-unit">${escapeHTML(p.price_unit || '')}</span>
         </div>
-        <a href="#customer-service" class="${btnClass}" onclick="preselectService('${ctaVal}')">${p.cta_text || 'Pesan Sekarang'}</a>
+        <a href="kontak.html?service=${encodeURIComponent(ctaVal)}" class="${btnClass}">${escapeHTML(p.cta_text || 'Pesan Sekarang')}</a>
       </div>
     `;
   }).join('');
@@ -973,7 +1032,7 @@ function populateServiceSelect(products) {
     products.map(p => {
       const val = p.cta_service_value || p.name;
       const isSelected = currentValue === val ? 'selected' : '';
-      return `<option value="${val}" ${isSelected}>${p.name} (${p.price_amount})</option>`;
+      return `<option value="${escapeHTML(val)}" ${isSelected}>${escapeHTML(p.name)} (${escapeHTML(p.price_amount)})</option>`;
     }).join('');
 }
 
@@ -984,7 +1043,7 @@ function populatePaymentSelect(methods) {
   const currentValue = select.value;
   select.innerHTML = methods.map(m => {
     const isSelected = currentValue === m.name ? 'selected' : '';
-    const desc = m.description ? ` (${m.description})` : '';
-    return `<option value="${m.name}" ${isSelected}>${m.name}${desc}</option>`;
+    const desc = m.description ? ` (${escapeHTML(m.description)})` : '';
+    return `<option value="${escapeHTML(m.name)}" ${isSelected}>${escapeHTML(m.name)}${desc}</option>`;
   }).join('');
 }
